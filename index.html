@@ -185,16 +185,30 @@ let PS={};
 
 // ── CSV ───────────────────────────────────────────────────────────────────────
 function csv(text){
-  const lines=text.trim().split('\n');
-  if(lines.length<2)return[];
-  const hdrs=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
-  return lines.slice(1).map(line=>{
-    const cols=[];let c='',q=false;
-    for(const ch of line){if(ch==='"'){q=!q;}else if(ch===','&&!q){cols.push(c.trim());c='';}else c+=ch;}
-    cols.push(c.trim());
-    const o={};hdrs.forEach((h,i)=>o[h]=(cols[i]||'').replace(/^"|"$/g,''));
+  const lines=text.trim().split('\n').filter(l=>l.trim()!=='');
+  // La riga 0 è il titolo del foglio (es. "CURVE F3 TRIESTE – aggiornato Wk...")
+  // La riga 1 è l'header delle colonne
+  // I dati partono dalla riga 2
+  if(lines.length<3)return[];
+  // Usa la seconda riga come header
+  const hdrs=splitCSVLine(lines[1]);
+  return lines.slice(2).map(line=>{
+    const cols=splitCSVLine(line);
+    const o={};
+    hdrs.forEach((h,i)=>o[i]=cols[i]||'');
     return o;
-  }).filter(r=>Object.values(r).some(v=>v!==''));
+  }).filter(r=>r[0]&&r[0].trim()!=='');
+}
+
+function splitCSVLine(line){
+  const cols=[];let c='',q=false;
+  for(const ch of line){
+    if(ch==='"'){q=!q;}
+    else if(ch===','&&!q){cols.push(c.trim());c='';}
+    else c+=ch;
+  }
+  cols.push(c.trim());
+  return cols.map(v=>v.replace(/^"|"$/g,''));
 }
 
 async function get(url){
@@ -203,7 +217,12 @@ async function get(url){
   return csv(await r.text());
 }
 
-function n(v){if(v===''||v==null)return null;const x=parseFloat(String(v).replace('%','').trim());return isNaN(x)?null:x;}
+function n(v){
+  if(v===''||v==null||v===undefined)return null;
+  const s=String(v).replace(/^"|"$/g,'').replace(/%/g,'').trim().replace(',','.');
+  const x=parseFloat(s);
+  return isNaN(x)?null:x;
+}
 function p(v){const x=n(v);if(x===null)return null;return x<=1?Math.round(x*100):Math.round(x);}
 
 // ── SYNC STATE ────────────────────────────────────────────────────────────────
@@ -243,13 +262,14 @@ function buildAll(){
 
 // ── PARSE CURVE ───────────────────────────────────────────────────────────────
 function parseCurve(rows){
-  // header flessibile: cerca colonne per posizione se i nomi cambiano
-  return rows.map(r=>{
-    const vals=Object.values(r);
-    const keys=Object.keys(r);
-    // col 0=settimana, 1=data, 2=prog_sett, 3=cons_sett, 4=prog_mont, 5=cons_mont
-    return{w:vals[0]||'',ps:n(vals[2]),cs:n(vals[3]),pm:n(vals[4]),cm:n(vals[5])};
-  }).filter(r=>r.w!=='');
+  // col 0=settimana, 1=data, 2=prog_sett, 3=cons_sett, 4=prog_mont, 5=cons_mont
+  return rows.map(r=>({
+    w: r[0]||'',
+    ps:n(r[2]),
+    cs:n(r[3]),
+    pm:n(r[4]),
+    cm:n(r[5]),
+  })).filter(r=>r.w!=='');
 }
 
 function buildCurves(){
@@ -262,11 +282,12 @@ function buildCurves(){
 
 // ── PARSE AVANZ ───────────────────────────────────────────────────────────────
 function parseAvanz(rows){
+  // col 0=tratto, 1=wk_fine, 2=av_tot%, 3=tot_pali, 4=f1_pali, 5=f2_pali, 6=f1%, 7=f2%, 8=f3%
   return rows.map(r=>{
-    const vals=Object.values(r);
-    // col 0=tratto, 1=wk_fine, 2=av_tot%, 3=tot_pali, 4=f1_pali, 5=f2_pali, 6=f1%, 7=f2%, 8=f3%
-    const av=p(vals[2]);
-    return{t:(vals[0]||'').replace('TRATTO ',''),wk:vals[1]||null,av,f1:p(vals[6])??'N.A.',f2:p(vals[7]),f3:p(vals[8])};
+    const av=p(r[2]);
+    const f1raw=r[6];
+    const f1=(f1raw===''||f1raw==null||f1raw==='N.A.'||f1raw==='0'&&r[4]==='N.A.')?'N.A.':p(f1raw);
+    return{t:(r[0]||'').replace('TRATTO ','').trim(),wk:r[1]||null,av,f1,f2:p(r[7]),f3:p(r[8])};
   }).filter(r=>r.t!=='');
 }
 
@@ -279,15 +300,13 @@ function buildAvanz(){
 function buildPali(){
   PS={};
   D.BPA.forEach(r=>{
-    const vals=Object.values(r);const keys=Object.keys(r);
-    // Cerca riga che inizia con Q1..Q6
-    const rk=String(vals[0]||'');
+    // col 0 = label riga (es. "Q6"), col 1..14 = B..O
+    const rk=String(r[0]||'');
     const m=rk.match(/Q([1-6])/);
     if(!m)return;
     const rowNum=m[1];
-    // colonne B..O sono indici 1..14
     COLS.forEach((col,ci)=>{
-      const v=(vals[ci+1]||'').toLowerCase().trim();
+      const v=(r[ci+1]||'').toLowerCase().trim();
       if(v==='done'||v==='wip'||v==='todo'){PS[col+rowNum]=v;}
     });
   });
@@ -312,9 +331,8 @@ function updKPI(){
   document.getElementById('k2').textContent=lf?Math.round(lf.cm):'—';
   // banchina: sum av pesato
   let tot=0;
-  D.BPA.filter(r=>Object.values(r)[1]!=='').forEach(r=>{
-    const vals=Object.values(r);
-    const qty=n(vals[2])||0,peso=n(vals[3])||0,eseg=n(vals[4])||0;
+  D.BPA.filter(r=>r[1]&&r[1]!=='').forEach(r=>{
+    const qty=n(r[2])||0,peso=n(r[3])||0,eseg=n(r[4])||0;
     if(qty>0)tot+=(eseg/qty)*(peso<=1?peso*100:peso);
   });
   document.getElementById('k3').textContent=tot>0?tot.toFixed(1)+'%':'—';
@@ -458,14 +476,13 @@ function updPL(){
 
 // ── BANCHINA CURVA ────────────────────────────────────────────────────────────
 function renderBanc(){
-  // tabella pesata
-  const brows=D.BPA.filter(r=>Object.values(r)[1]!=='');
+  // tabella pesata — col 0=tipologia, 1=attività, 2=qtà, 3=peso%, 4=eseguiti
+  const brows=D.BPA.filter(r=>r[1]&&r[1]!=='');
   let tot=0,lastTipo='',bhtml='';
   brows.forEach((r,i)=>{
-    const vals=Object.values(r);
-    const tipo=vals[0]||'',attiv=vals[1]||'';
-    const qty=n(vals[2])||0,pesoRaw=n(vals[3])||0,peso=pesoRaw<=1?pesoRaw*100:pesoRaw;
-    const eseg=n(vals[4])||0,av=qty>0?(eseg/qty)*(peso/100)*100:0;
+    const tipo=r[0]||'',attiv=r[1]||'';
+    const qty=n(r[2])||0,pesoRaw=n(r[3])||0,peso=pesoRaw<=1?pesoRaw*100:pesoRaw;
+    const eseg=n(r[4])||0,av=qty>0?(eseg/qty)*(peso/100)*100:0;
     tot+=av;
     const tc=tipo&&tipo!==lastTipo?`<td style="text-align:left;font-weight:700;color:var(--navy)">${tipo}</td>`:'<td></td>';
     if(tipo)lastTipo=tipo;
@@ -475,20 +492,19 @@ function renderBanc(){
   document.getElementById('bpbody').innerHTML=bhtml||'<tr><td colspan="6" class="spin">Caricamento…</td></tr>';
   document.getElementById('bpsub').textContent=tot>0?`Avanzamento pesato: ${tot.toFixed(1)}%`:'';
 
-  // curva
+  // curva — col 0=settimana, 1=data, 2=piano_sett, 3=cons_sett, 4=piano_cum, 5=cons_cum
   const bcData=D.BCU;if(!bcData.length)return;
   BR={};
   bcData.forEach((r,i)=>{
-    const vals=Object.values(r);
-    const cc=n(vals[5]),cs=n(vals[3]);
+    const cc=n(r[5]),cs=n(r[3]);
     if(cc!=null)BR[i]=cc;
     else if(cs!=null&&i>0&&BR[i-1]!=null)BR[i]=BR[i-1]+cs;
   });
   const totalP=50,li=Object.keys(BR).length?Math.max(...Object.keys(BR).map(Number)):2;
   const lc2=BR[li]??0;
-  const wkLabs=bcData.map(r=>Object.values(r)[0]||'');
-  const pSett=bcData.map(r=>n(Object.values(r)[2])||0);
-  const pCum=bcData.map(r=>n(Object.values(r)[4])||0);
+  const wkLabs=bcData.map(r=>r[0]||'');
+  const pSett=bcData.map(r=>n(r[2])||0);
+  const pCum=bcData.map(r=>n(r[4])||0);
   const pMax=Math.max(...pCum.filter(v=>v>0),totalP);
   const bd=bcData.map((r,i)=>{
     const cm=BR[i]??null,pv=i>0?(BR[i-1]??null):0;
@@ -510,7 +526,7 @@ function renderBanc(){
 }
 function clkB(i){
   if(!D.BCU.length||i<=2)return;BEI=i;
-  const wk=Object.values(D.BCU[i])[0]||'Wk';const dt=Object.values(D.BCU[i])[1]||'';
+  const wk=D.BCU[i][0]||'Wk',dt=D.BCU[i][1]||'';
   document.getElementById('bel').textContent=`${wk}${dt?' ('+dt+')':''} — pali cumulativi:`;
   document.getElementById('bei').value='';document.getElementById('bedt').style.display='flex';
   setTimeout(()=>document.getElementById('bei').focus(),50);
