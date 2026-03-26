@@ -3,632 +3,463 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="KAV Dashboard">
 <title>KAV Dashboard – Fincantieri Monfalcone</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root {
-  --navy:  #1B3262; --navy2: #243D72; --gold:  #C49A2B;
-  --blue:  #1B5E89; --ora:   #E07B3A; --grn:   #4BAD5E;
-  --aqu:   #3AADE0; --red:   #D94040; --gray:  #F3F5F9;
-  --mgray: #DDE3ED; --text:  #1A2A4A; --muted: #7B8DB0;
-}
+:root{--navy:#1B3262;--navy2:#243D72;--gold:#C49A2B;--blue:#1B5E89;--ora:#E07B3A;--grn:#4BAD5E;--aqu:#3AADE0;--red:#D94040;--bg:#F3F5F9;--mg:#DDE3ED;--mu:#7B8DB0;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--gray);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);min-height:100vh;}
-
-/* HEADER */
-.hdr{background:var(--navy);border-bottom:2px solid rgba(196,154,43,.4);padding:10px 14px;
-  display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
-.hdr-badge{background:rgba(196,154,43,.15);border:1px solid rgba(196,154,43,.4);border-radius:4px;
-  padding:3px 9px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:monospace;}
-.hdr-title{font-size:12px;font-weight:500;color:rgba(255,255,255,.9);}
-.hdr-wk{margin-left:auto;background:rgba(196,154,43,.12);border:1px solid rgba(196,154,43,.3);
-  border-radius:4px;padding:2px 9px;font-size:10px;font-family:monospace;color:var(--gold);}
-
-/* KPI */
-.kpi-row{padding:10px 12px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-@media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
-.kpi{background:#fff;border:1px solid var(--mgray);border-radius:6px;padding:10px 12px;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--gold));}
-.kpi-lbl{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:monospace;margin-bottom:3px;}
-.kpi-val{font-size:20px;font-weight:700;color:var(--navy);font-family:monospace;line-height:1;}
-.kpi-sub{font-size:9px;color:#9BA8B8;margin-top:2px;font-family:monospace;}
-
-/* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--mgray);background:#fff;margin-top:10px;padding:0 12px;}
-.tab{padding:9px 14px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:.08em;
-  background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;font-weight:400;}
-.tab.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600;}
-
-.sub-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.sub-tab{padding:5px 12px;font-size:9px;font-family:monospace;border-radius:4px;cursor:pointer;font-weight:600;border:1.5px solid;}
-
-/* CONTENT */
-.content{padding:12px;}
-.view{display:none;}.view.active{display:block;}
-.card{background:#fff;border:1px solid var(--mgray);border-radius:6px;padding:14px;margin-bottom:14px;}
-.card-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.card-acc{width:3px;height:14px;border-radius:2px;flex-shrink:0;}
-.card-title{font-size:10px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;font-family:monospace;}
-.card-sub{font-size:9px;color:var(--muted);font-family:monospace;margin-top:1px;}
-
-/* CHARTS */
-.chart-wrap{position:relative;height:250px;}
-.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:9px;color:#5A6880;font-family:monospace;}
-.leg-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;}
-.leg-ln{width:20px;height:0;display:inline-block;margin-right:3px;vertical-align:middle;}
-
-/* TABLES */
+body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--navy);}
+.hdr{background:var(--navy);border-bottom:2px solid rgba(196,154,43,.4);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
+.hbdg{background:rgba(196,154,43,.15);border:1px solid rgba(196,154,43,.4);border-radius:4px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:monospace;}
+.htit{font-size:12px;color:rgba(255,255,255,.9);}
+.hwk{margin-left:auto;background:rgba(196,154,43,.12);border:1px solid rgba(196,154,43,.3);border-radius:4px;padding:2px 9px;font-size:10px;font-family:monospace;color:var(--gold);}
+.krow{padding:10px 12px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+@media(max-width:560px){.krow{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:10px 12px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--gold));}
+.kl{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);font-family:monospace;margin-bottom:3px;}
+.kv{font-size:20px;font-weight:700;color:var(--navy);font-family:monospace;line-height:1;}
+.ks{font-size:9px;color:#9BA8B8;margin-top:2px;font-family:monospace;}
+.tabs{display:flex;border-bottom:1px solid var(--mg);background:#fff;margin-top:10px;padding:0 12px;}
+.tab{padding:9px 14px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:.08em;background:none;border:none;border-bottom:2px solid transparent;color:var(--mu);cursor:pointer;}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:600;}
+.con{padding:12px;}
+.vw{display:none;}.vw.on{display:block;}
+.crd{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:14px;margin-bottom:14px;}
+.chdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.cacc{width:3px;height:14px;border-radius:2px;flex-shrink:0;}
+.ctit{font-size:10px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;font-family:monospace;}
+.csub{font-size:9px;color:var(--mu);font-family:monospace;margin-top:1px;}
+.stabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.stab{padding:5px 12px;font-size:9px;font-family:monospace;border-radius:4px;cursor:pointer;font-weight:600;border:1.5px solid;}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:9px;color:#5A6880;font-family:monospace;align-items:center;}
+.lsq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle;}
+.lln{width:22px;height:3px;display:inline-block;margin-right:3px;vertical-align:middle;}
+.lld{width:22px;height:0;display:inline-block;margin-right:3px;vertical-align:middle;border-bottom:2.5px dashed;}
+svg.ch{width:100%;display:block;overflow:visible;}
 .tbl{width:100%;border-collapse:collapse;font-size:9px;font-family:monospace;}
-.tbl th{background:var(--navy);color:#fff;padding:5px 8px;font-size:8px;text-transform:uppercase;
-  letter-spacing:.05em;text-align:center;border:1px solid var(--navy2);}
+.tbl th{background:var(--navy);color:#fff;padding:5px 8px;font-size:8px;text-transform:uppercase;text-align:center;border:1px solid var(--navy2);}
 .tbl td{padding:4px 8px;border-bottom:1px solid #F0F3F8;text-align:center;vertical-align:middle;}
 .tbl tr:nth-child(even) td{background:#F8F9FC;}
-.badge{font-size:9px;padding:1px 7px;border-radius:3px;font-weight:600;font-family:monospace;display:inline-block;}
-.bg{background:#E6F4EA;color:#2E7D32;}
-.ba{background:#FFF8E1;color:#A06000;}
-.bo{background:#FFF3E0;color:#BF6000;}
-.br{background:#FDECEA;color:#C62828;}
-.bn{background:#EEF0F5;color:#546080;}
-
-/* PALI MAP */
-.pali-map{overflow-x:auto;}
-.pali-map svg{display:block;min-width:380px;}
-.palo{cursor:pointer;}
-.palo:hover circle{opacity:.75;}
-.pali-leg{display:flex;gap:12px;margin-top:8px;font-size:9px;font-family:monospace;color:#5A6880;flex-wrap:wrap;}
-.pali-leg span{display:flex;align-items:center;gap:5px;}
+.bdg{font-size:9px;padding:1px 7px;border-radius:3px;font-weight:600;font-family:monospace;display:inline-block;}
+.bg{background:#E6F4EA;color:#2E7D32;}.ba{background:#FFF8E1;color:#A06000;}
+.bo{background:#FFF3E0;color:#BF6000;}.br{background:#FDECEA;color:#C62828;}.bn{background:#EEF0F5;color:#546080;}
+.pm{overflow-x:auto;}.pm svg{display:block;min-width:380px;}
+.palo{cursor:pointer;}.palo:hover circle{opacity:.75;}
+.pleg{display:flex;gap:12px;margin-top:8px;font-size:9px;font-family:monospace;color:#5A6880;flex-wrap:wrap;}
+.pleg span{display:flex;align-items:center;gap:5px;}
 .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
-
-/* BANCHINA CURVA */
-.curva-edit{margin-top:8px;background:#fff;border:1px solid var(--gold);border-radius:6px;
-  padding:8px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.curva-edit input{width:60px;padding:3px 6px;border:1px solid var(--mgray);border-radius:4px;
-  font-size:10px;font-family:monospace;text-align:center;}
-.btn-ok{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:3px 10px;
-  font-size:9px;font-family:monospace;cursor:pointer;}
-.btn-x{background:#EEF0F5;color:#5A6880;border:none;border-radius:4px;padding:3px 8px;
-  font-size:9px;font-family:monospace;cursor:pointer;}
+.edt{margin-top:8px;background:#fff;border:1px solid var(--gold);border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.edt input{width:60px;padding:3px 6px;border:1px solid var(--mg);border-radius:4px;font-size:10px;font-family:monospace;text-align:center;}
+.bok{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:9px;font-family:monospace;cursor:pointer;}
+.bx{background:#EEF0F5;color:#5A6880;border:none;border-radius:4px;padding:3px 8px;font-size:9px;font-family:monospace;cursor:pointer;}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-badge">KAV</div>
-  <div class="hdr-title">Report Palificazione</div>
-  <div class="hdr-wk">WK 12 · 23/03/2026</div>
+  <div class="hbdg">KAV</div>
+  <div class="htit">Report Palificazione</div>
+  <div class="hwk">WK 12 · 23/03/2026</div>
 </div>
 
-<!-- KPI -->
-<div class="kpi-row">
-  <div class="kpi" style="--accent:#1B5E89">
-    <div class="kpi-lbl">Av. F3 Trieste</div>
-    <div class="kpi-val">69.8%</div>
-    <div class="kpi-sub">cons. montante</div>
-  </div>
-  <div class="kpi" style="--accent:#3AADE0">
-    <div class="kpi-lbl">Av. F3 Venezia</div>
-    <div class="kpi-val">23%</div>
-    <div class="kpi-sub">cons. montante</div>
-  </div>
-  <div class="kpi" style="--accent:#E07B3A">
-    <div class="kpi-lbl">F2 Venezia</div>
-    <div class="kpi-val">751</div>
-    <div class="kpi-sub">pali cum. cons.</div>
-  </div>
-  <div class="kpi" style="--accent:#C49A2B">
-    <div class="kpi-lbl">Banchina</div>
-    <div class="kpi-val">31.5%</div>
-    <div class="kpi-sub">Wk12 · 13 pali</div>
-  </div>
+<div class="krow">
+  <div class="kpi" style="--ac:#1B5E89"><div class="kl">Av. F3 Trieste</div><div class="kv">69.8%</div><div class="ks">cons. montante</div></div>
+  <div class="kpi" style="--ac:#3AADE0"><div class="kl">Av. F3 Venezia</div><div class="kv">23%</div><div class="ks">cons. montante</div></div>
+  <div class="kpi" style="--ac:#E07B3A"><div class="kl">F2 Venezia</div><div class="kv">751</div><div class="ks">pali cum. cons.</div></div>
+  <div class="kpi" style="--ac:#C49A2B"><div class="kl">Banchina</div><div class="kv">31.5%</div><div class="ks">Wk12 · 13 pali</div></div>
 </div>
 
-<!-- MAIN TABS -->
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('curve')">Curve</button>
-  <button class="tab" onclick="switchTab('avanz')">Avanzamenti</button>
-  <button class="tab" onclick="switchTab('banchina')">Banchina</button>
+  <button class="tab on" onclick="goTab('curve')">Curve</button>
+  <button class="tab" onclick="goTab('avanz')">Avanzamenti</button>
+  <button class="tab" onclick="goTab('banchina')">Banchina</button>
 </div>
 
-<div class="content">
+<div class="con">
 
-  <!-- ── CURVE ── -->
-  <div class="view active" id="view-curve">
-    <div class="sub-tabs" id="curve-tabs">
-      <button class="sub-tab active-sub" id="ctab-0"
-        style="background:#1B5E89;color:#fff;border-color:#1B5E89"
-        onclick="switchCurve(0)">F3 Trieste</button>
-      <button class="sub-tab" id="ctab-1"
-        style="background:#fff;color:#E07B3A;border-color:#E07B3A"
-        onclick="switchCurve(1)">F2 Venezia</button>
-      <button class="sub-tab" id="ctab-2"
-        style="background:#fff;color:#3AADE0;border-color:#3AADE0"
-        onclick="switchCurve(2)">F3 Venezia</button>
+<div class="vw on" id="v-curve">
+  <div class="stabs" id="ctabs"></div>
+  <div class="crd">
+    <div class="chdr"><div class="cacc" id="c-acc"></div>
+      <div><div class="ctit" id="c-tit"></div><div class="csub">Wk 12 · 23/03/2026</div></div>
     </div>
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-acc" id="curve-acc" style="background:#1B5E89"></div>
-        <div>
-          <div class="card-title" id="curve-title">Fase 3 lato Trieste</div>
-          <div class="card-sub">Wk 12 · 23/03/2026</div>
-        </div>
-      </div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:#1B5E89"></span>Prog. sett.</span>
-        <span><span class="leg-sq" style="background:#E07B3A"></span>Cons. sett.</span>
-        <span><span class="leg-ln" style="border-bottom:2.5px dashed #4BAD5E"></span>Prog. mont.</span>
-        <span><span class="leg-ln" style="border-bottom:2.5px solid #3AADE0"></span>Cons. mont.</span>
-        <span><span class="leg-ln" style="border-bottom:2px dashed #C49A2B"></span>Oggi W12</span>
-      </div>
-      <div class="chart-wrap"><canvas id="chart-curve"></canvas></div>
+    <div class="leg">
+      <span><span class="lsq" style="background:#1B5E89"></span>Prog. sett.</span>
+      <span><span class="lsq" style="background:#E07B3A"></span>Cons. sett.</span>
+      <span style="color:#4BAD5E"><span class="lld" style="border-color:#4BAD5E"></span>Prog. mont.</span>
+      <span style="color:#3AADE0"><span class="lln" style="background:#3AADE0"></span>Cons. mont.</span>
+    </div>
+    <div id="c-wrap"></div>
+  </div>
+</div>
+
+<div class="vw" id="v-avanz">
+  <div class="stabs" id="atabs"></div>
+  <div class="crd">
+    <div class="chdr"><div class="cacc" id="a-acc"></div>
+      <div><div class="ctit" id="a-tit"></div><div class="csub">Wk 12 · 23/03/2026</div></div>
+    </div>
+    <div style="overflow-x:auto"><table class="tbl">
+      <thead><tr><th style="text-align:left">Tratto</th><th>Wk</th><th>Av%</th><th>F1%</th><th>F2%</th><th>F3%</th></tr></thead>
+      <tbody id="a-body"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="vw" id="v-banchina">
+  <div class="crd">
+    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
+      <div><div class="ctit">Planimetria pali grosso Ø</div><div class="csub">Clicca per cambiare stato</div></div>
+    </div>
+    <div class="pm"><svg id="psvg" width="100%" viewBox="0 0 620 218"></svg></div>
+    <div class="pleg" id="pleg"></div>
+  </div>
+  <div class="crd">
+    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
+      <div><div class="ctit">Avanzamento pesato — Wk 12 (31.5%)</div></div>
+    </div>
+    <div style="overflow-x:auto"><table class="tbl">
+      <thead><tr><th style="text-align:left">Tipologia</th><th style="text-align:left">Attività</th><th>Qtà</th><th>Peso%</th><th>Eseguiti</th><th>Av%</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left;font-weight:700;color:var(--navy)" rowspan="3">Palo grosso Ø<br><small style="font-weight:400;color:var(--mu)">(50 tot)</small></td>
+          <td style="text-align:left">Vibroinfissione lamierino</td><td>50</td><td>40%</td><td style="font-weight:700;color:var(--blue)">18</td><td><span class="bdg bn">14%</span></td></tr>
+        <tr><td style="text-align:left">Scavo interno</td><td>50</td><td>20%</td><td style="font-weight:700;color:var(--blue)">13</td><td><span class="bdg bn">5%</span></td></tr>
+        <tr><td style="text-align:left">Armatura e getto</td><td>50</td><td>10%</td><td style="font-weight:700;color:var(--blue)">13</td><td><span class="bdg bn">3%</span></td></tr>
+        <tr><td style="text-align:left;font-weight:700;color:var(--navy)">Micropalo Titan<br><small style="font-weight:400;color:var(--mu)">(55 tot)</small></td>
+          <td style="text-align:left">Inserimento barra Titan</td><td>55</td><td>30%</td><td style="font-weight:700;color:var(--blue)">17</td><td><span class="bdg ba">9%</span></td></tr>
+        <tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:11px">31.5%</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="crd">
+    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
+      <div><div class="ctit">Curva pali grosso Ø — 02/03 → 30/06/2026</div>
+      <div class="csub">50 pali · ~3/sett · clicca barra futura per aggiornare</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px" id="bkpi"></div>
+    <div class="leg">
+      <span><span class="lsq" style="background:#1B5E89"></span>Prog. sett.</span>
+      <span><span class="lsq" style="background:#E07B3A"></span>Cons. sett.</span>
+      <span style="color:#4BAD5E"><span class="lld" style="border-color:#4BAD5E"></span>Prog. %</span>
+      <span style="color:#1B3262"><span class="lln" style="background:#1B3262"></span>Cons. %</span>
+    </div>
+    <div id="b-wrap"></div>
+    <div class="edt" id="bedt" style="display:none">
+      <span id="bel" style="font-size:9px;color:var(--navy);font-weight:600;font-family:monospace"></span>
+      <input type="number" id="bei" min="0" max="50">
+      <span style="font-size:9px;color:#9BA8B8;font-family:monospace">pali cumulativi</span>
+      <button class="bok" onclick="saveB()">OK</button>
+      <button class="bx" onclick="closeB()">✕</button>
     </div>
   </div>
+</div>
 
-  <!-- ── AVANZAMENTI ── -->
-  <div class="view" id="view-avanz">
-    <div class="sub-tabs">
-      <button class="sub-tab" id="atab-0"
-        style="background:#1B5E89;color:#fff;border-color:#1B5E89"
-        onclick="switchAvanz(0)">Lato Valentinis</button>
-      <button class="sub-tab" id="atab-1"
-        style="background:#fff;color:#E07B3A;border-color:#E07B3A"
-        onclick="switchAvanz(1)">Lato Venezia</button>
-    </div>
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-acc" id="avanz-acc" style="background:#1B5E89"></div>
-        <div><div class="card-title" id="avanz-title">Avanzamenti Lato Valentinis</div>
-        <div class="card-sub">Wk 12 · 23/03/2026</div></div>
-      </div>
-      <div style="overflow-x:auto"><table class="tbl" id="avanz-tbl">
-        <thead><tr>
-          <th style="text-align:left">Tratto</th>
-          <th>Wk</th><th>Av%</th><th>F1%</th><th>F2%</th><th>F3%</th>
-        </tr></thead>
-        <tbody id="avanz-body"></tbody>
-      </table></div>
-    </div>
-  </div>
-
-  <!-- ── BANCHINA ── -->
-  <div class="view" id="view-banchina">
-
-    <!-- Planimetria -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-acc" style="background:#C49A2B"></div>
-        <div><div class="card-title">Planimetria pali grosso Ø</div>
-        <div class="card-sub">Clicca su un palo per cambiare stato</div></div>
-      </div>
-      <div class="pali-map"><svg id="pali-svg" width="100%" viewBox="0 0 620 220"></svg></div>
-      <div class="pali-leg" id="pali-leg"></div>
-    </div>
-
-    <!-- Tabella pesata -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-acc" style="background:#C49A2B"></div>
-        <div><div class="card-title">Avanzamento pesato — Wk 12 (31.5%)</div></div>
-      </div>
-      <div style="overflow-x:auto"><table class="tbl">
-        <thead><tr>
-          <th style="text-align:left">Tipologia</th>
-          <th style="text-align:left">Attività</th>
-          <th>Qtà</th><th>Peso%</th><th>Eseguiti</th><th>Av%</th>
-        </tr></thead>
-        <tbody>
-          <tr><td style="text-align:left;font-weight:700;color:var(--navy)" rowspan="3">Palo grosso Ø<br><small style="font-weight:400;color:var(--muted)">(50 tot)</small></td>
-            <td style="text-align:left">Vibroinfissione lamierino</td><td>50</td><td>40%</td><td style="font-weight:700;color:var(--blue)">18</td><td><span class="badge bn">14%</span></td></tr>
-          <tr><td style="text-align:left">Scavo interno</td><td>50</td><td>20%</td><td style="font-weight:700;color:var(--blue)">13</td><td><span class="badge bn">5%</span></td></tr>
-          <tr><td style="text-align:left">Armatura e getto</td><td>50</td><td>10%</td><td style="font-weight:700;color:var(--blue)">13</td><td><span class="badge bn">3%</span></td></tr>
-          <tr><td style="text-align:left;font-weight:700;color:var(--navy)">Micropalo Titan<br><small style="font-weight:400;color:var(--muted)">(55 tot)</small></td>
-            <td style="text-align:left">Inserimento barra Titan</td><td>55</td><td>30%</td><td style="font-weight:700;color:var(--blue)">17</td><td><span class="badge ba">9%</span></td></tr>
-          <tr style="background:#EEF2FA">
-            <td colspan="4" style="text-align:right;font-weight:700;color:var(--navy);font-size:10px">TOTALE</td>
-            <td></td><td><span class="badge ba" style="font-size:11px">31.5%</span></td>
-          </tr>
-        </tbody>
-      </table></div>
-    </div>
-
-    <!-- Curva banchina -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-acc" style="background:#C49A2B"></div>
-        <div><div class="card-title">Curva pali grosso Ø — 02/03 → 30/06/2026</div>
-        <div class="card-sub">50 pali totali · ~3 pali/settimana · clicca settimana futura per aggiornare</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px" id="banc-kpi"></div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:#1B5E89"></span>Prog. sett.</span>
-        <span><span class="leg-sq" style="background:#E07B3A"></span>Cons. sett.</span>
-        <span><span class="leg-ln" style="border-bottom:2.5px dashed #4BAD5E"></span>Prog. mont. %</span>
-        <span><span class="leg-ln" style="border-bottom:2.5px solid #1B3262"></span>Cons. mont. %</span>
-      </div>
-      <div class="chart-wrap" style="height:240px"><canvas id="chart-banc"></canvas></div>
-      <div class="curva-edit" id="banc-edit" style="display:none">
-        <span id="banc-edit-label" style="font-size:9px;color:var(--navy);font-weight:600;font-family:monospace"></span>
-        <input type="number" id="banc-edit-inp" min="0" max="50" placeholder="0–50">
-        <span style="font-size:9px;color:#9BA8B8;font-family:monospace">pali cumulativi</span>
-        <button class="btn-ok" onclick="saveBancEdit()">OK</button>
-        <button class="btn-x" onclick="closeBancEdit()">✕</button>
-      </div>
-    </div>
-
-  </div><!-- /view-banchina -->
-</div><!-- /content -->
+</div>
 
 <script>
 // ── DATA ─────────────────────────────────────────────────────────────────────
-const CURVES = [
-  {
-    title:"Fase 3 lato Trieste", accent:"#1B5E89", yLL:"%", yRL:"% cum.",
-    data:[
-      {wk:"W05",ps:null,cs:null,pm:50.0,cm:60.9},
-      {wk:"W06",ps:null,cs:null,pm:50.0,cm:61.1},
-      {wk:"W07",ps:null,cs:null,pm:61.0,cm:61.1},
-      {wk:"W08",ps:3.6, cs:3.1, pm:64.6,cm:61.1},
-      {wk:"W09",ps:3.6, cs:0.8, pm:68.3,cm:64.2},
-      {wk:"W10",ps:3.3, cs:2.5, pm:71.6,cm:65.0},
-      {wk:"W11",ps:5.6, cs:2.3, pm:77.2,cm:67.5},
-      {wk:"W12",ps:5.6, cs:5.3, pm:82.8,cm:69.8},
-      {wk:"W13",ps:5.4, cs:2.4, pm:88.2,cm:75.1},
-      {wk:"W14",ps:6.6, cs:null,pm:94.8,cm:77.5},
-      {wk:"W15",ps:3.1, cs:null,pm:97.9,cm:null},
-      {wk:"W16",ps:1.7, cs:null,pm:99.7,cm:null},
-    ]
-  },
-  {
-    title:"Palificazione Fase 2 lato Venezia", accent:"#E07B3A", yLL:"n° pali", yRL:"cum.",
-    data:[
-      {wk:"W07",ps:29.5,cs:18,  pm:511.5,cm:482},
-      {wk:"W08",ps:42.5,cs:null,pm:null, cm:510},
-      {wk:"W09",ps:54.1,cs:null,pm:null, cm:556},
-      {wk:"W10",ps:60.6,cs:null,pm:null, cm:597},
-      {wk:"W11",ps:62.0,cs:null,pm:null, cm:656},
-      {wk:"W12",ps:57.0,cs:null,pm:null, cm:714},
-      {wk:"W13",ps:42.0,cs:null,pm:null, cm:751},
-      {wk:"W14",ps:37.9,cs:null,pm:null, cm:null},
-      {wk:"W15",ps:27.5,cs:null,pm:null, cm:null},
-      {wk:"W16",ps:14.8,cs:null,pm:null, cm:null},
-      {wk:"W17",ps:0,   cs:null,pm:null, cm:null},
-    ]
-  },
-  {
-    title:"Fase 3 lato Venezia", accent:"#3AADE0", yLL:"%", yRL:"% cum.",
-    data:[
-      {wk:"W06",ps:2.74,cs:3.0, pm:2.74, cm:6.0},
-      {wk:"W07",ps:5.10,cs:1.0, pm:7.84, cm:7.0},
-      {wk:"W08",ps:9.37,cs:2.0, pm:17.22,cm:9.0},
-      {wk:"W09",ps:9.37,cs:2.0, pm:26.59,cm:11.0},
-      {wk:"W10",ps:9.00,cs:3.0, pm:35.58,cm:14.0},
-      {wk:"W11",ps:7.36,cs:4.0, pm:42.95,cm:18.0},
-      {wk:"W12",ps:8.15,cs:5.0, pm:51.10,cm:23.0},
-      {wk:"W13",ps:8.15,cs:null,pm:59.25,cm:null},
-      {wk:"W14",ps:11.12,cs:null,pm:70.37,cm:null},
-      {wk:"W15",ps:11.12,cs:null,pm:81.49,cm:null},
-      {wk:"W16",ps:11.82,cs:null,pm:93.31,cm:null},
-      {wk:"W17",ps:3.56,cs:null,pm:96.88,cm:null},
-      {wk:"W18",ps:2.60,cs:null,pm:99.48,cm:null},
-      {wk:"W19",ps:0.52,cs:null,pm:100.0,cm:null},
-    ]
-  }
+const CURVES=[
+  {title:"Fase 3 lato Trieste",ac:"#1B5E89",yL:"%",yR:"% mont.",
+   d:[{w:"W05",ps:null,cs:null,pm:50.0,cm:60.9},{w:"W06",ps:null,cs:null,pm:50.0,cm:61.1},
+      {w:"W07",ps:null,cs:null,pm:61.0,cm:61.1},{w:"W08",ps:3.6,cs:3.1,pm:64.6,cm:61.1},
+      {w:"W09",ps:3.6,cs:0.8,pm:68.3,cm:64.2},{w:"W10",ps:3.3,cs:2.5,pm:71.6,cm:65.0},
+      {w:"W11",ps:5.6,cs:2.3,pm:77.2,cm:67.5},{w:"W12",ps:5.6,cs:5.3,pm:82.8,cm:69.8},
+      {w:"W13",ps:5.4,cs:2.4,pm:88.2,cm:75.1},{w:"W14",ps:6.6,cs:null,pm:94.8,cm:77.5},
+      {w:"W15",ps:3.1,cs:null,pm:97.9,cm:null},{w:"W16",ps:1.7,cs:null,pm:99.7,cm:null}]},
+  {title:"Palificazione Fase 2 lato Venezia",ac:"#E07B3A",yL:"pali sett.",yR:"pali mont.",
+   d:[{w:"W07",ps:29.5,cs:18,pm:511,cm:482},{w:"W08",ps:42.5,cs:null,pm:554,cm:510},
+      {w:"W09",ps:54.1,cs:null,pm:608,cm:556},{w:"W10",ps:60.6,cs:null,pm:669,cm:597},
+      {w:"W11",ps:62.0,cs:null,pm:731,cm:656},{w:"W12",ps:57.0,cs:null,pm:788,cm:714},
+      {w:"W13",ps:42.0,cs:null,pm:830,cm:751},{w:"W14",ps:37.9,cs:null,pm:868,cm:null},
+      {w:"W15",ps:27.5,cs:null,pm:896,cm:null},{w:"W16",ps:14.8,cs:null,pm:901,cm:null},
+      {w:"W17",ps:0,cs:null,pm:901,cm:null}]},
+  {title:"Fase 3 lato Venezia",ac:"#3AADE0",yL:"%",yR:"% mont.",
+   d:[{w:"W06",ps:2.74,cs:3.0,pm:2.74,cm:6.0},{w:"W07",ps:5.10,cs:1.0,pm:7.84,cm:7.0},
+      {w:"W08",ps:9.37,cs:2.0,pm:17.22,cm:9.0},{w:"W09",ps:9.37,cs:2.0,pm:26.59,cm:11.0},
+      {w:"W10",ps:9.00,cs:3.0,pm:35.58,cm:14.0},{w:"W11",ps:7.36,cs:4.0,pm:42.95,cm:18.0},
+      {w:"W12",ps:8.15,cs:5.0,pm:51.10,cm:23.0},{w:"W13",ps:8.15,cs:null,pm:59.25,cm:null},
+      {w:"W14",ps:11.12,cs:null,pm:70.37,cm:null},{w:"W15",ps:11.12,cs:null,pm:81.49,cm:null},
+      {w:"W16",ps:11.82,cs:null,pm:93.31,cm:null},{w:"W17",ps:3.56,cs:null,pm:96.88,cm:null},
+      {w:"W18",ps:2.60,cs:null,pm:99.48,cm:null},{w:"W19",ps:0.52,cs:null,pm:100.0,cm:null}]}
 ];
 
-const AVANZ = {
-  val:[
-    {t:"I",  wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"II", wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"III",wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"IV", wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"V",  wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"VI", wk:8,   av:100,f1:100,f2:100,f3:100},
-    {t:"VII",wk:10,  av:100,f1:100,f2:100,f3:100},
-    {t:"VIII",wk:12, av:50, f1:100,f2:100,f3:0},
-    {t:"IX", wk:13,  av:50, f1:100,f2:100,f3:0},
-    {t:"X",  wk:12,  av:96, f1:"N.A.",f2:100,f3:92},
-    {t:"XI", wk:null,av:100,f1:"N.A.",f2:100,f3:100},
-    {t:"XII",wk:null,av:100,f1:"N.A.",f2:100,f3:100},
-    {t:"XIII",wk:13, av:97, f1:"N.A.",f2:100,f3:93},
-    {t:"XIV",wk:14,  av:50, f1:"N.A.",f2:100,f3:0},
-  ],
-  ven:[
-    {t:"III", wk:18,   av:8,  f1:"N.A.",f2:16, f3:0},
-    {t:"IV",  wk:16,   av:51, f1:"N.A.",f2:81, f3:21},
-    {t:"V",   wk:14,   av:59, f1:"N.A.",f2:84, f3:34},
-    {t:"VI",  wk:11,   av:49, f1:"N.A.",f2:96, f3:2},
-    {t:"VII", wk:10,   av:59, f1:"N.A.",f2:97, f3:20},
-    {t:"VIII",wk:"nd", av:21, f1:"N.A.",f2:41, f3:1},
-    {t:"IX",  wk:10,   av:77, f1:"N.A.",f2:100,f3:54},
-    {t:"X",   wk:11,   av:52, f1:"N.A.",f2:100,f3:5},
-    {t:"XI",  wk:16,   av:51, f1:"N.A.",f2:100,f3:1},
-    {t:"XII", wk:17,   av:77, f1:"N.A.",f2:100,f3:54},
-    {t:"XIII",wk:16,   av:68, f1:"N.A.",f2:100,f3:36},
-    {t:"XIV", wk:11,   av:74, f1:"N.A.",f2:100,f3:47},
-  ]
+const AV={
+  val:[{t:"I",wk:null,av:100,f1:100,f2:100,f3:100},{t:"II",wk:null,av:100,f1:100,f2:100,f3:100},
+       {t:"III",wk:null,av:100,f1:100,f2:100,f3:100},{t:"IV",wk:null,av:100,f1:100,f2:100,f3:100},
+       {t:"V",wk:null,av:100,f1:100,f2:100,f3:100},{t:"VI",wk:8,av:100,f1:100,f2:100,f3:100},
+       {t:"VII",wk:10,av:100,f1:100,f2:100,f3:100},{t:"VIII",wk:12,av:50,f1:100,f2:100,f3:0},
+       {t:"IX",wk:13,av:50,f1:100,f2:100,f3:0},{t:"X",wk:12,av:96,f1:"N.A.",f2:100,f3:92},
+       {t:"XI",wk:null,av:100,f1:"N.A.",f2:100,f3:100},{t:"XII",wk:null,av:100,f1:"N.A.",f2:100,f3:100},
+       {t:"XIII",wk:13,av:97,f1:"N.A.",f2:100,f3:93},{t:"XIV",wk:14,av:50,f1:"N.A.",f2:100,f3:0}],
+  ven:[{t:"III",wk:18,av:8,f1:"N.A.",f2:16,f3:0},{t:"IV",wk:16,av:51,f1:"N.A.",f2:81,f3:21},
+       {t:"V",wk:14,av:59,f1:"N.A.",f2:84,f3:34},{t:"VI",wk:11,av:49,f1:"N.A.",f2:96,f3:2},
+       {t:"VII",wk:10,av:59,f1:"N.A.",f2:97,f3:20},{t:"VIII",wk:"nd",av:21,f1:"N.A.",f2:41,f3:1},
+       {t:"IX",wk:10,av:77,f1:"N.A.",f2:100,f3:54},{t:"X",wk:11,av:52,f1:"N.A.",f2:100,f3:5},
+       {t:"XI",wk:16,av:51,f1:"N.A.",f2:100,f3:1},{t:"XII",wk:17,av:77,f1:"N.A.",f2:100,f3:54},
+       {t:"XIII",wk:16,av:68,f1:"N.A.",f2:100,f3:36},{t:"XIV",wk:11,av:74,f1:"N.A.",f2:100,f3:47}]
 };
 
-const COLS=['B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
-const BROWS=[6,5,4,3,2,1];
-const PALI_INIT={
-  I6:"done",J6:"done",K6:"done",L6:"done",M6:"done",N6:"done",O6:"done",
+const COLS=['B','C','D','E','F','G','H','I','J','K','L','M','N','O'],BROWS=[6,5,4,3,2,1];
+const PI={I6:"done",J6:"done",K6:"done",L6:"done",M6:"done",N6:"done",O6:"done",
   G5:"done",I5:"wip",J5:"wip",K5:"wip",L5:"todo",M5:"todo",N5:"todo",O5:"todo",
   E4:"done",F4:"todo",H4:"todo",I4:"todo",J4:"todo",K4:"todo",L4:"todo",M4:"todo",N4:"todo",O4:"todo",
   D3:"done",E3:"done",F3:"todo",H3:"todo",I3:"todo",J3:"todo",K3:"todo",L3:"todo",M3:"todo",N3:"todo",O3:"todo",
-  O2:"todo",
-  B1:"done",C1:"wip",D1:"wip",E1:"done",F1:"todo",H1:"todo",I1:"todo",J1:"todo",K1:"todo",L1:"todo",M1:"todo",N1:"todo",O1:"todo",
-};
-const paliState = Object.assign({},PALI_INIT);
-const CYCLE={done:"wip",wip:"todo",todo:"done"};
-const SCOL={done:{fill:"#4BAD5E",stroke:"#2E7D32"},wip:{fill:"#E0A030",stroke:"#A06000"},todo:{fill:"#E05050",stroke:"#A03030"}};
+  O2:"todo",B1:"done",C1:"wip",D1:"wip",E1:"done",F1:"todo",H1:"todo",I1:"todo",J1:"todo",K1:"todo",L1:"todo",M1:"todo",N1:"todo",O1:"todo"};
+const PS=Object.assign({},PI);
+const CYC={done:"wip",wip:"todo",todo:"done"};
+const SC={done:{f:"#4BAD5E",s:"#2E7D32"},wip:{f:"#E0A030",s:"#A06000"},todo:{f:"#E05050",s:"#A03030"}};
 
-const BANC_WKS=["W10","W11","W12","W13","W14","W15","W16","W17","W18","W19","W20","W21","W22","W23","W24","W25","W26","W27"];
-const BANC_DATE=["02/03","09/03","16/03","23/03","30/03","06/04","13/04","20/04","27/04","04/05","11/05","18/05","25/05","01/06","08/06","15/06","22/06","30/06"];
-const PIANO_SETT=[3,3,3,3,3,3,3,3,3,3,2,3,2,3,2,3,2,3];
-const PIANO_CUM=[3,6,9,12,15,18,21,24,27,30,32,35,37,40,42,45,47,50];
-const bancReale={0:0,1:9,2:13};
-let bancEditIdx=null;
+const BWK=["W10","W11","W12","W13","W14","W15","W16","W17","W18","W19","W20","W21","W22","W23","W24","W25","W26","W27"];
+const BDT=["02/03","09/03","16/03","23/03","30/03","06/04","13/04","20/04","27/04","04/05","11/05","18/05","25/05","01/06","08/06","15/06","22/06","30/06"];
+const PSETT=[3,3,3,3,3,3,3,3,3,3,2,3,2,3,2,3,2,3];
+const PCUM=[3,6,9,12,15,18,21,24,27,30,32,35,37,40,42,45,47,50];
+const BR={0:0,1:9,2:13};
+let BEI=null;
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-Chart.defaults.color='#7B8DB0';
-Chart.defaults.font.family='monospace';
-Chart.defaults.font.size=9;
+// ── SVG CHART ENGINE ─────────────────────────────────────────────────────────
+function makeChart(data,opt){
+  const {W=580,H=260,pL=44,pR=50,pT=14,pB=32,bk,lk,bc,lc,ld,labs,todayI,onClk}=opt;
+  const cW=W-pL-pR,cH=H-pT-pB,n=data.length;
+  const bw=Math.max(4,Math.floor(cW/n*0.32));
+  const gap=cW/n;
 
-let chartCurve=null, chartBanc=null;
+  // compute scale maxima
+  const lMax=Math.max(...bk.flatMap(k=>data.map(d=>+(d[k]??0))),1)*1.18;
+  const rVals=lk.flatMap(k=>data.map(d=>d[k]).filter(v=>v!=null));
+  const rMax=Math.max(...rVals,1)*1.08;
 
-function badge(v){
-  if(v==="N.A."||v===null||v===undefined) return '<span class="badge bn">N.A.</span>';
-  const n=typeof v==="number"?v:parseInt(v);
-  const cl=n>=100?"bg":n>=70?"ba":n>=50?"bo":"br";
-  return `<span class="badge ${cl}">${n}%</span>`;
+  function xc(i){return pL+i*gap+gap/2;}
+  function yL(v){return pT+cH*(1-v/lMax);}
+  function yR(v){return pT+cH*(1-v/rMax);}
+
+  // nice ticks
+  function step(mx){const r=mx/5;const p=Math.pow(10,Math.floor(Math.log10(r)));for(const f of[1,2,2.5,5,10])if(p*f>=r)return p*f;return p*10;}
+  const lSt=step(lMax),rSt=step(rMax);
+
+  let s=`<svg class="ch" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // grid & left ticks
+  for(let v=0;v<=lMax+lSt/2;v+=lSt){
+    if(v>lMax*1.05)break;
+    const y=yL(v);
+    s+=`<line x1="${pL}" y1="${y.toFixed(1)}" x2="${pL+cW}" y2="${y.toFixed(1)}" stroke="#EEF0F5" stroke-width="1"/>`;
+    s+=`<text x="${pL-3}" y="${(y+3).toFixed(1)}" text-anchor="end" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;
+  }
+  // right ticks
+  for(let v=0;v<=rMax+rSt/2;v+=rSt){
+    if(v>rMax*1.05)break;
+    const y=yR(v);
+    s+=`<text x="${pL+cW+3}" y="${(y+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;
+  }
+
+  // today line
+  if(todayI>=0){
+    const tx=xc(todayI);
+    s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">oggi</text>`;
+  }
+
+  // BARS (two groups side by side)
+  bk.forEach((k,ki)=>{
+    data.forEach((d,i)=>{
+      const v=+(d[k]??0); if(v<=0) return;
+      const offset=(ki-bk.length/2+0.5)*bw;
+      const x=xc(i)+offset-bw/2;
+      const h=v/lMax*cH; const y=pT+cH-h;
+      const clk=onClk?`onclick="${onClk}(${i})" style="cursor:pointer"`:'';
+      s+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${h.toFixed(1)}" fill="${bc[ki]}" rx="2" ${clk}/>`;
+    });
+  });
+
+  // X labels
+  data.forEach((d,i)=>{
+    s+=`<text x="${xc(i).toFixed(1)}" y="${pT+cH+13}" text-anchor="middle" font-size="8" fill="#9BA8B8" font-family="monospace">${labs[i]}</text>`;
+  });
+
+  // LINES — draw each key as continuous segments skipping nulls
+  lk.forEach((k,ki)=>{
+    const col=lc[ki], dash=ld[ki]||'';
+    const dashAttr=dash?` stroke-dasharray="${dash}"`:'';
+
+    // collect point arrays split on null
+    let seg=[];
+    data.forEach((d,i)=>{
+      const v=d[k];
+      if(v!=null){ seg.push([i,+v]); }
+      else {
+        if(seg.length>=2){ drawSeg(seg); }
+        else if(seg.length===1){ drawDot(seg[0]); }
+        seg=[];
+      }
+    });
+    if(seg.length>=2) drawSeg(seg);
+    else if(seg.length===1) drawDot(seg[0]);
+
+    function drawSeg(pts){
+      const d2='M'+pts.map(([i,v])=>`${xc(i).toFixed(1)},${yR(v).toFixed(1)}`).join(' L');
+      s+=`<path d="${d2}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"${dashAttr}/>`;
+      // dots on cons line (ki===1)
+      pts.forEach(([i,v])=>{
+        const r=ki===1?3:0;
+        if(r>0) s+=`<circle cx="${xc(i).toFixed(1)}" cy="${yR(v).toFixed(1)}" r="${r}" fill="${col}"/>`;
+      });
+    }
+    function drawDot([i,v]){
+      s+=`<circle cx="${xc(i).toFixed(1)}" cy="${yR(v).toFixed(1)}" r="3" fill="${col}"/>`;
+    }
+  });
+
+  // axes
+  s+=`<line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
+  s+=`<line x1="${pL}" y1="${pT+cH}" x2="${pL+cW}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
+  s+=`<line x1="${pL+cW}" y1="${pT}" x2="${pL+cW}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
+
+  s+=`</svg>`;
+  return s;
 }
 
 // ── TABS ─────────────────────────────────────────────────────────────────────
-function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
-  document.getElementById('view-'+name).classList.add('active');
-  if(name==='curve') renderCurve(0);
-  if(name==='banchina'){ renderPali(); renderBancCurva(); }
+function goTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.vw').forEach(v=>v.classList.remove('on'));
+  document.querySelector(`[onclick="goTab('${t}')"]`).classList.add('on');
+  document.getElementById('v-'+t).classList.add('on');
+  if(t==='curve') goCurve(curC);
+  if(t==='banchina'){renderPali();renderBanc();}
 }
 
 // ── CURVES ───────────────────────────────────────────────────────────────────
-let curCurve=0;
-function switchCurve(i){
-  curCurve=i;
-  CURVES.forEach((_,j)=>{
-    const btn=document.getElementById('ctab-'+j);
-    const c=CURVES[j].accent;
-    if(j===i){btn.style.background=c;btn.style.color='#fff';btn.style.borderColor=c;}
-    else{btn.style.background='#fff';btn.style.color=c;btn.style.borderColor=c;}
+let curC=0;
+function goCurve(i){
+  curC=i;
+  document.querySelectorAll('#ctabs .stab').forEach((b,j)=>{
+    const ac=CURVES[j].ac;
+    if(j===i){b.style.background=ac;b.style.color='#fff';b.style.borderColor=ac;}
+    else{b.style.background='#fff';b.style.color=ac;b.style.borderColor=ac;}
   });
-  document.getElementById('curve-acc').style.background=CURVES[i].accent;
-  document.getElementById('curve-title').textContent=CURVES[i].title;
-  renderCurve(i);
+  document.getElementById('c-acc').style.background=CURVES[i].ac;
+  document.getElementById('c-tit').textContent=CURVES[i].title;
+  const d=CURVES[i].d;
+  document.getElementById('c-wrap').innerHTML=makeChart(d,{
+    W:580,H:260,pL:44,pR:50,pT:14,pB:32,
+    bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
+    lk:['pm','cm'],lc:['#4BAD5E','#3AADE0'],ld:['7,4',''],
+    labs:d.map(x=>x.w),todayI:d.findIndex(x=>x.w==='W12')
+  });
 }
 
-function renderCurve(i){
-  const C=CURVES[i];
-  const labels=C.data.map(d=>d.wk);
-  if(chartCurve) chartCurve.destroy();
-  chartCurve=new Chart(document.getElementById('chart-curve'),{
-    data:{labels,datasets:[
-      {type:'bar',label:'Prog.sett.',data:C.data.map(d=>d.ps),backgroundColor:'#1B5E89CC',borderColor:'#1B5E89',borderWidth:1,yAxisID:'l',order:2,borderRadius:2},
-      {type:'bar',label:'Cons.sett.',data:C.data.map(d=>d.cs),backgroundColor:'#E07B3ACC',borderColor:'#E07B3A',borderWidth:1,yAxisID:'l',order:2,borderRadius:2},
-      {type:'line',label:'Prog.mont.',data:C.data.map(d=>d.pm),borderColor:'#4BAD5E',borderWidth:2,borderDash:[6,3],pointRadius:0,fill:false,tension:.3,yAxisID:'r',order:1,spanGaps:false},
-      {type:'line',label:'Cons.mont.',data:C.data.map(d=>d.cm),borderColor:'#3AADE0',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#3AADE0',fill:false,tension:.3,yAxisID:'r',order:1,spanGaps:false},
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y??'—'}`}}},
-      scales:{
-        l:{position:'left',grid:{color:'rgba(0,0,0,.06)'},ticks:{font:{size:8}},title:{display:true,text:C.yLL,font:{size:7},color:'#9BA8B8'}},
-        r:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:8}},title:{display:true,text:C.yRL,font:{size:7},color:'#9BA8B8'}},
-        x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:8}}}
-      },
-      annotation:{annotations:{today:{type:'line',xMin:'W12',xMax:'W12',borderColor:'#C49A2B',borderWidth:1.5,borderDash:[4,3]}}},
-    }
+// Init curve tabs
+(function(){
+  const tb=document.getElementById('ctabs');
+  CURVES.forEach((c,i)=>{
+    const labels=['F3 Trieste','F2 Venezia','F3 Venezia'];
+    const b=document.createElement('button');b.className='stab';b.textContent=labels[i];
+    b.onclick=()=>goCurve(i);tb.appendChild(b);
   });
-}
+})();
 
 // ── AVANZAMENTI ──────────────────────────────────────────────────────────────
-let curAvanz=0;
-function switchAvanz(i){
-  curAvanz=i;
-  ['atab-0','atab-1'].forEach((id,j)=>{
-    const btn=document.getElementById(id);
-    const c=j===0?'#1B5E89':'#E07B3A';
-    if(j===i){btn.style.background=c;btn.style.color='#fff';btn.style.borderColor=c;}
-    else{btn.style.background='#fff';btn.style.color=c;btn.style.borderColor=c;}
+let curA=0;
+function goAvanz(i){
+  curA=i;
+  document.querySelectorAll('#atabs .stab').forEach((b,j)=>{
+    const ac=j===0?'#1B5E89':'#E07B3A';
+    if(j===i){b.style.background=ac;b.style.color='#fff';b.style.borderColor=ac;}
+    else{b.style.background='#fff';b.style.color=ac;b.style.borderColor=ac;}
   });
-  document.getElementById('avanz-acc').style.background=i===0?'#1B5E89':'#E07B3A';
-  document.getElementById('avanz-title').textContent=`Avanzamenti Lato ${i===0?'Valentinis':'Venezia'}`;
-  const data=i===0?AVANZ.val:AVANZ.ven;
-  document.getElementById('avanz-body').innerHTML=data.map((r,idx)=>`
+  document.getElementById('a-acc').style.background=i===0?'#1B5E89':'#E07B3A';
+  document.getElementById('a-tit').textContent=`Avanzamenti Lato ${i===0?'Valentinis':'Venezia'}`;
+  const rows=i===0?AV.val:AV.ven;
+  document.getElementById('a-body').innerHTML=rows.map((r,idx)=>`
     <tr style="background:${idx%2===0?'#F8F9FC':'#fff'}">
-      <td style="text-align:left;font-weight:700;color:var(--navy);padding:4px 8px;border-bottom:1px solid #F0F3F8">${r.t}</td>
-      <td>${r.wk||'—'}</td>
-      <td>${badge(r.av)}</td>
-      <td>${badge(r.f1)}</td>
-      <td>${badge(r.f2)}</td>
-      <td>${badge(r.f3)}</td>
+      <td style="text-align:left;font-weight:700;color:#1B3262;padding:4px 8px;border-bottom:1px solid #F0F3F8">${r.t}</td>
+      <td>${r.wk||'—'}</td><td>${bdg(r.av)}</td><td>${bdg(r.f1)}</td><td>${bdg(r.f2)}</td><td>${bdg(r.f3)}</td>
     </tr>`).join('');
 }
-
-// ── PALI MAP ─────────────────────────────────────────────────────────────────
-function renderPali(){
-  const svg=document.getElementById('pali-svg');
-  svg.innerHTML='';
-  const CW=41,RH=33,OX=26,OY=18,R=11;
-  const W=OX+COLS.length*CW+16, H=OY+BROWS.length*RH+22;
-  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-
-  // grid
-  BROWS.forEach((_,ri)=>{
-    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
-    l.setAttribute('x1',OX);l.setAttribute('y1',OY+ri*RH);
-    l.setAttribute('x2',OX+COLS.length*CW);l.setAttribute('y2',OY+ri*RH);
-    l.setAttribute('stroke','#D0D8E8');l.setAttribute('stroke-width','0.5');svg.appendChild(l);
-  });
-  const lb=document.createElementNS('http://www.w3.org/2000/svg','line');
-  lb.setAttribute('x1',OX);lb.setAttribute('y1',OY+BROWS.length*RH);
-  lb.setAttribute('x2',OX+COLS.length*CW);lb.setAttribute('y2',OY+BROWS.length*RH);
-  lb.setAttribute('stroke','#D0D8E8');lb.setAttribute('stroke-width','0.5');svg.appendChild(lb);
-
-  COLS.forEach((_,ci)=>{
-    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
-    l.setAttribute('x1',OX+ci*CW);l.setAttribute('y1',OY);
-    l.setAttribute('x2',OX+ci*CW);l.setAttribute('y2',OY+BROWS.length*RH);
-    l.setAttribute('stroke','#D0D8E8');l.setAttribute('stroke-width','0.5');svg.appendChild(l);
-  });
-  const lbv=document.createElementNS('http://www.w3.org/2000/svg','line');
-  lbv.setAttribute('x1',OX+COLS.length*CW);lbv.setAttribute('y1',OY);
-  lbv.setAttribute('x2',OX+COLS.length*CW);lbv.setAttribute('y2',OY+BROWS.length*RH);
-  lbv.setAttribute('stroke','#D0D8E8');lbv.setAttribute('stroke-width','0.5');svg.appendChild(lbv);
-
-  // labels
-  BROWS.forEach((row,ri)=>{
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',OX-5);t.setAttribute('y',OY+ri*RH+RH/2+4);
-    t.setAttribute('text-anchor','end');t.setAttribute('font-size','8');
-    t.setAttribute('font-family','monospace');t.setAttribute('fill','#9BA8B8');
-    t.textContent='Q'+row;svg.appendChild(t);
-  });
-  COLS.forEach((col,ci)=>{
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',OX+ci*CW+CW/2);t.setAttribute('y',OY-5);
-    t.setAttribute('text-anchor','middle');t.setAttribute('font-size','8');
-    t.setAttribute('font-family','monospace');t.setAttribute('fill','#9BA8B8');
-    t.textContent=col;svg.appendChild(t);
-  });
-
-  // pali
-  COLS.forEach((col,ci)=>BROWS.forEach((row,ri)=>{
-    const key=col+row;
-    if(!PALI_INIT[key]) return;
-    const s=paliState[key];
-    const st=SCOL[s];
-    const cx=OX+ci*CW+CW/2, cy=OY+ri*RH+RH/2;
-    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('class','palo');
-    g.addEventListener('click',()=>{ paliState[key]=CYCLE[paliState[key]]; renderPali(); updatePaliLeg(); });
-
-    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('cx',cx);circle.setAttribute('cy',cy);circle.setAttribute('r',R);
-    circle.setAttribute('fill',st.fill);circle.setAttribute('stroke',st.stroke);
-    circle.setAttribute('stroke-width','1.5');g.appendChild(circle);
-
-    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
-    txt.setAttribute('x',cx);txt.setAttribute('y',cy+3.5);
-    txt.setAttribute('text-anchor','middle');txt.setAttribute('font-size','6.5');
-    txt.setAttribute('font-family','monospace');txt.setAttribute('fill','#fff');
-    txt.setAttribute('font-weight','600');txt.textContent=key;g.appendChild(txt);
-    svg.appendChild(g);
-  }));
-
-  updatePaliLeg();
+function bdg(v){
+  if(v==="N.A."||v==null)return'<span class="bdg bn">N.A.</span>';
+  const n=+v;return`<span class="bdg ${n>=100?'bg':n>=70?'ba':n>=50?'bo':'br'}">${n}%</span>`;
 }
+(function(){
+  const tb=document.getElementById('atabs');
+  ['Lato Valentinis','Lato Venezia'].forEach((l,i)=>{
+    const b=document.createElement('button');b.className='stab';b.textContent=l;
+    b.onclick=()=>goAvanz(i);tb.appendChild(b);
+  });
+})();
 
-function updatePaliLeg(){
-  const counts={done:0,wip:0,todo:0};
-  Object.values(paliState).forEach(s=>counts[s]++);
-  const tot=Object.keys(paliState).length;
-  const pct=Math.round((counts.done+counts.wip*.5)/tot*100);
-  document.getElementById('pali-leg').innerHTML=
-    `<span><span class="dot" style="background:#4BAD5E;border:1.5px solid #2E7D32"></span>Completati: <b style="color:#2E7D32">${counts.done}</b></span>
-     <span><span class="dot" style="background:#E0A030;border:1.5px solid #A06000"></span>In lavoro: <b style="color:#A06000">${counts.wip}</b></span>
-     <span><span class="dot" style="background:#E05050;border:1.5px solid #A03030"></span>Da fare: <b style="color:#A03030">${counts.todo}</b></span>
-     <span style="margin-left:4px;background:#EEF0F5;color:var(--navy);padding:2px 8px;border-radius:3px;font-weight:600">Totale: ${tot} · Av. ~${pct}%</span>`;
+// ── PALI ─────────────────────────────────────────────────────────────────────
+function renderPali(){
+  const CW=41,RH=33,OX=26,OY=18,R=11;
+  const W=OX+COLS.length*CW+16,H=OY+BROWS.length*RH+22;
+  const svg=document.getElementById('psvg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  let s='';
+  BROWS.forEach((_,ri)=>s+=`<line x1="${OX}" y1="${OY+ri*RH}" x2="${OX+COLS.length*CW}" y2="${OY+ri*RH}" stroke="#D0D8E8" stroke-width=".5"/>`);
+  s+=`<line x1="${OX}" y1="${OY+BROWS.length*RH}" x2="${OX+COLS.length*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`;
+  COLS.forEach((_,ci)=>s+=`<line x1="${OX+ci*CW}" y1="${OY}" x2="${OX+ci*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`);
+  s+=`<line x1="${OX+COLS.length*CW}" y1="${OY}" x2="${OX+COLS.length*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`;
+  BROWS.forEach((row,ri)=>s+=`<text x="${OX-5}" y="${OY+ri*RH+RH/2+4}" text-anchor="end" font-size="8" font-family="monospace" fill="#9BA8B8">Q${row}</text>`);
+  COLS.forEach((col,ci)=>s+=`<text x="${OX+ci*CW+CW/2}" y="${OY-5}" text-anchor="middle" font-size="8" font-family="monospace" fill="#9BA8B8">${col}</text>`);
+  COLS.forEach((col,ci)=>BROWS.forEach((row,ri)=>{
+    const k=col+row;if(!PI[k])return;
+    const st=SC[PS[k]];const cx=OX+ci*CW+CW/2,cy=OY+ri*RH+RH/2;
+    s+=`<g class="palo" onclick="tP('${k}')"><circle cx="${cx}" cy="${cy}" r="${R}" fill="${st.f}" stroke="${st.s}" stroke-width="1.5"/>`;
+    s+=`<text x="${cx}" y="${cy+3.5}" text-anchor="middle" font-size="6.5" font-family="monospace" fill="#fff" font-weight="600">${k}</text></g>`;
+  }));
+  svg.innerHTML=s;updPL();
+}
+function tP(k){PS[k]=CYC[PS[k]];renderPali();}
+function updPL(){
+  const c={done:0,wip:0,todo:0};Object.values(PS).forEach(s=>c[s]++);
+  const t=Object.keys(PS).length,p=Math.round((c.done+c.wip*.5)/t*100);
+  document.getElementById('pleg').innerHTML=
+    `<span><span class="dot" style="background:#4BAD5E;border:1.5px solid #2E7D32"></span>Completati: <b style="color:#2E7D32">${c.done}</b></span>
+     <span><span class="dot" style="background:#E0A030;border:1.5px solid #A06000"></span>In lavoro: <b style="color:#A06000">${c.wip}</b></span>
+     <span><span class="dot" style="background:#E05050;border:1.5px solid #A03030"></span>Da fare: <b style="color:#A03030">${c.todo}</b></span>
+     <span style="background:#EEF0F5;color:#1B3262;padding:2px 8px;border-radius:3px;font-weight:600;font-family:monospace">Totale:${t}·Av.~${p}%</span>`;
 }
 
 // ── BANCHINA CURVA ────────────────────────────────────────────────────────────
-function buildBancData(){
-  return BANC_WKS.map((wk,i)=>{
-    const cum=bancReale[i]??null;
-    const prevCum=i>0?(bancReale[i-1]??null):0;
-    return {
-      wk, ps:PIANO_SETT[i], cs:(cum!=null&&prevCum!=null)?cum-prevCum:null,
-      pm:PIANO_CUM[i], cm:cum,
-      ppct:Math.round(PIANO_CUM[i]/50*100),
-      rpct:cum!=null?Math.round(cum/50*100):null
-    };
+function renderBanc(){
+  const li=Math.max(...Object.keys(BR).map(Number));
+  const lc=BR[li]??0;const dlt=lc-PCUM[li];
+  document.getElementById('bkpi').innerHTML=
+    `<div class="kpi" style="--ac:#4BAD5E"><div class="kl">Completati</div><div class="kv">${lc}</div><div class="ks">pali</div></div>
+     <div class="kpi" style="--ac:#1B5E89"><div class="kl">Avanzamento</div><div class="kv">${Math.round(lc/50*100)}%</div></div>
+     <div class="kpi" style="--ac:${dlt>=0?'#4BAD5E':'#D94040'}"><div class="kl">Vs piano</div><div class="kv" style="color:${dlt>=0?'#2E7D32':'#C62828'}">${dlt>=0?'+':''}${dlt}</div><div class="ks">pali</div></div>
+     <div class="kpi" style="--ac:#C49A2B"><div class="kl">Fine prevista</div><div class="kv">30/06</div><div class="ks">W27</div></div>`;
+  const bd=BWK.map((wk,i)=>{
+    const cm=BR[i]??null,pv=i>0?(BR[i-1]??null):0;
+    return{w:wk,ps:PSETT[i],cs:(cm!=null&&pv!=null)?cm-pv:null,pm:Math.round(PCUM[i]/50*100),cm:cm!=null?Math.round(cm/50*100):null};
+  });
+  document.getElementById('b-wrap').innerHTML=makeChart(bd,{
+    W:580,H:260,pL:40,pR:44,pT:14,pB:32,
+    bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
+    lk:['pm','cm'],lc:['#4BAD5E','#1B3262'],ld:['7,4',''],
+    labs:bd.map(x=>x.w),todayI:2,onClk:'clkB'
   });
 }
-
-function renderBancCurva(){
-  const data=buildBancData();
-  const lastIdx=Math.max(...Object.keys(bancReale).map(Number));
-  const lastCum=bancReale[lastIdx]??0;
-  const delta=lastCum-PIANO_CUM[lastIdx];
-
-  // KPI
-  document.getElementById('banc-kpi').innerHTML=
-    `<div class="kpi" style="--accent:#4BAD5E"><div class="kpi-lbl">Completati</div><div class="kpi-val">${lastCum}</div><div class="kpi-sub">pali</div></div>
-     <div class="kpi" style="--accent:#1B5E89"><div class="kpi-lbl">Avanzamento</div><div class="kpi-val">${Math.round(lastCum/50*100)}%</div></div>
-     <div class="kpi" style="--accent:${delta>=0?'#4BAD5E':'#D94040'}"><div class="kpi-lbl">Vs piano</div><div class="kpi-val" style="color:${delta>=0?'#2E7D32':'#C62828'}">${delta>=0?'+':''}${delta}</div><div class="kpi-sub">pali</div></div>
-     <div class="kpi" style="--accent:#C49A2B"><div class="kpi-lbl">Fine prevista</div><div class="kpi-val">30/06</div><div class="kpi-sub">W27</div></div>`;
-
-  if(chartBanc) chartBanc.destroy();
-  chartBanc=new Chart(document.getElementById('chart-banc'),{
-    data:{labels:data.map(d=>d.wk),datasets:[
-      {type:'bar',label:'Prog.sett.',data:data.map(d=>d.ps),backgroundColor:'#1B5E89BB',borderColor:'#1B5E89',borderWidth:1,yAxisID:'l',order:2,borderRadius:2},
-      {type:'bar',label:'Cons.sett.',data:data.map(d=>d.cs),backgroundColor:'#E07B3ABB',borderColor:'#E07B3A',borderWidth:1,yAxisID:'l',order:2,borderRadius:2},
-      {type:'line',label:'Prog.%',data:data.map(d=>d.ppct),borderColor:'#4BAD5E',borderWidth:2,borderDash:[6,3],pointRadius:0,fill:false,tension:.3,yAxisID:'r',order:1,spanGaps:true},
-      {type:'line',label:'Cons.%',data:data.map(d=>d.rpct),borderColor:'#1B3262',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#1B3262',fill:false,tension:.3,yAxisID:'r',order:1,spanGaps:false},
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y??'—'}`}}},
-      scales:{
-        l:{position:'left',max:10,grid:{color:'rgba(0,0,0,.06)'},ticks:{font:{size:8}},title:{display:true,text:'pali',font:{size:7},color:'#9BA8B8'}},
-        r:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},ticks:{font:{size:8},callback:v=>v+'%'}},
-        x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:8},maxRotation:45}}
-      },
-      onClick(e,els){
-        if(!els.length) return;
-        const i=els[0].index;
-        if(i<=2) return;
-        bancEditIdx=i;
-        document.getElementById('banc-edit-label').textContent=`${BANC_WKS[i]} (${BANC_DATE[i]}) — pali completati cumulativi:`;
-        document.getElementById('banc-edit-inp').value='';
-        document.getElementById('banc-edit').style.display='flex';
-        setTimeout(()=>document.getElementById('banc-edit-inp').focus(),50);
-      }
-    }
-  });
-
-  // Linea oggi
-  const todayX=BANC_WKS.indexOf('W12');
-  if(todayX>=0 && chartBanc){
-    const meta=chartBanc.getDatasetMeta(0);
-    // fallback visivo tramite annotation non disponibile senza plugin — aggiungo dataset verticale
-  }
+function clkB(i){
+  if(i<=2)return;BEI=i;
+  document.getElementById('bel').textContent=`${BWK[i]} (${BDT[i]}) — pali cumulativi:`;
+  document.getElementById('bei').value='';
+  document.getElementById('bedt').style.display='flex';
+  setTimeout(()=>document.getElementById('bei').focus(),50);
 }
-
-function saveBancEdit(){
-  const n=parseInt(document.getElementById('banc-edit-inp').value);
-  if(isNaN(n)||n<0||n>50) return;
-  const prev=bancEditIdx>0?(bancReale[bancEditIdx-1]??null):0;
-  if(prev!==null&&n<prev) return;
-  bancReale[bancEditIdx]=n;
-  closeBancEdit();
-  renderBancCurva();
+function saveB(){
+  const n=parseInt(document.getElementById('bei').value);
+  if(isNaN(n)||n<0||n>50)return;
+  const pv=BEI>0?(BR[BEI-1]??null):0;
+  if(pv!=null&&n<pv)return;
+  BR[BEI]=n;closeB();renderBanc();
 }
-function closeBancEdit(){
-  bancEditIdx=null;
-  document.getElementById('banc-edit').style.display='none';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeBancEdit();});
+function closeB(){BEI=null;document.getElementById('bedt').style.display='none';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeB();});
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
-renderCurve(0);
-switchAvanz(0);
+goCurve(0);
+goAvanz(0);
 </script>
 </body>
 </html>
