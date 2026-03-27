@@ -184,23 +184,15 @@ const SC={done:{f:"#4BAD5E",s:"#2E7D32"},wip:{f:"#E0A030",s:"#A06000"},todo:{f:"
 let PS={};
 
 // ── CSV ───────────────────────────────────────────────────────────────────────
-function csv(text){
-  const lines=text.trim().split('\n').filter(l=>l.trim()!=='');
-  // La riga 0 è il titolo del foglio (es. "CURVE F3 TRIESTE – aggiornato Wk...")
-  // La riga 1 è l'header delle colonne
-  // I dati partono dalla riga 2
-  if(lines.length<3)return[];
-  // Usa la seconda riga come header
-  const hdrs=splitCSVLine(lines[1]);
-  return lines.slice(2).map(line=>{
-    const cols=splitCSVLine(line);
-    const o={};
-    hdrs.forEach((h,i)=>o[i]=cols[i]||'');
-    return o;
-  }).filter(r=>r[0]&&r[0].trim()!=='');
+// ── CSV PARSER ────────────────────────────────────────────────────────────────
+// Struttura comune: riga 0 = titolo foglio, riga 1 = header colonne, dati da riga 2
+// BANCHINA_PALI ha 3 righe di header (riga 0=titolo, 1=titolo griglia, 2=header colonne)
+function csvParse(text, skipRows){
+  const raw = text.replace(/\r/g,'').split('\n').filter(l=>l!=='');
+  if(raw.length <= skipRows) return [];
+  return raw.slice(skipRows).map(line=>splitLine(line)).filter(r=>r.some(v=>v!==''));
 }
-
-function splitCSVLine(line){
+function splitLine(line){
   const cols=[];let c='',q=false;
   for(const ch of line){
     if(ch==='"'){q=!q;}
@@ -208,22 +200,30 @@ function splitCSVLine(line){
     else c+=ch;
   }
   cols.push(c.trim());
-  return cols.map(v=>v.replace(/^"|"$/g,''));
+  return cols.map(v=>v.replace(/^"|"$/g,'').replace(/\n/g,' ').trim());
 }
 
-async function get(url){
+async function get(url, skipRows=2){
   const r=await fetch(url+'&cachebust='+Date.now());
-  if(!r.ok)throw new Error(r.status);
-  return csv(await r.text());
+  if(!r.ok) throw new Error(r.status);
+  return csvParse(await r.text(), skipRows);
 }
 
+// Parsa un numero: gestisce virgola decimale, %, valori vuoti
 function n(v){
-  if(v===''||v==null||v===undefined)return null;
-  const s=String(v).replace(/^"|"$/g,'').replace(/%/g,'').trim().replace(',','.');
+  if(v===''||v==null||v===undefined) return null;
+  // rimuove %, virgolette, spazi poi sostituisce virgola con punto
+  const s=String(v).replace(/"/g,'').replace(/%/g,'').trim().replace(',','.');
   const x=parseFloat(s);
   return isNaN(x)?null:x;
 }
-function p(v){const x=n(v);if(x===null)return null;return x<=1?Math.round(x*100):Math.round(x);}
+// Parsa una percentuale: se già 0-100 la usa diretta, se 0-1 la moltiplica per 100
+function p(v){
+  if(v==='N.A.'||v===''||v==null) return null;
+  const x=n(v);
+  if(x===null) return null;
+  return Math.round(x); // i valori nel file sono già in % (es. "100,0%" → 100)
+}
 
 // ── SYNC STATE ────────────────────────────────────────────────────────────────
 function ss(state,txt){
@@ -236,18 +236,22 @@ function ss(state,txt){
 async function loadAll(){
   ss('L','Connessione a Google Sheets…');
   try{
-    const [f3t,f2v,f3v,avv,avn,bpa,bcu]=await Promise.all([get(URLS.F3T),get(URLS.F2V),get(URLS.F3V),get(URLS.AVV),get(URLS.AVN),get(URLS.BPA),get(URLS.BCU)]);
+    const [f3t,f2v,f3v,avv,avn,bpa,bcu]=await Promise.all([
+      get(URLS.F3T,2), get(URLS.F2V,2), get(URLS.F3V,2),
+      get(URLS.AVV,2), get(URLS.AVN,2),
+      get(URLS.BPA,3), // BANCHINA_PALI ha 3 righe header
+      get(URLS.BCU,2),
+    ]);
     D={F3T:f3t,F2V:f2v,F3V:f3v,AVV:avv,AVN:avn,BPA:bpa,BCU:bcu};
     buildAll();
     const now=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
     ss('','Aggiornato alle '+now);
-    // settimana corrente
-    const wk=D.F3T.filter(r=>r[Object.keys(r)[3]]!=='').pop();
-    if(wk)document.getElementById('hwk').textContent=(wk[Object.keys(wk)[0]]||'WK —')+' · KAV';
+    // settimana corrente dall'ultima riga con cons valorizzato
+    const wkRow=D.F3T.filter(r=>r[3]!=='').pop();
+    if(wkRow) document.getElementById('hwk').textContent=(wkRow[0]||'WK —')+' · KAV';
   }catch(e){
     ss('E','Errore caricamento — verificare connessione');
     console.error(e);
-    // usa dati di fallback integrati
     useFallback();
   }
 }
@@ -297,20 +301,20 @@ function buildAvanz(){
 }
 
 // ── PARSE PALI ────────────────────────────────────────────────────────────────
+// BANCHINA_PALI: col 0=Q6..Q1, col 1-14=B..O (griglia), col 16=tipologia, 17=attività, 18=qtà, 19=peso%, 20=eseguiti, 21=av%
 function buildPali(){
   PS={};
   D.BPA.forEach(r=>{
-    // col 0 = label riga (es. "Q6"), col 1..14 = B..O
     const rk=String(r[0]||'');
     const m=rk.match(/Q([1-6])/);
-    if(!m)return;
+    if(!m) return;
     const rowNum=m[1];
     COLS.forEach((col,ci)=>{
       const v=(r[ci+1]||'').toLowerCase().trim();
-      if(v==='done'||v==='wip'||v==='todo'){PS[col+rowNum]=v;}
+      if(v==='done'||v==='wip'||v==='todo') PS[col+rowNum]=v;
     });
   });
-  if(!Object.keys(PS).length)PS=defaultPS();
+  if(!Object.keys(PS).length) PS=defaultPS();
 }
 
 function defaultPS(){
@@ -329,11 +333,11 @@ function updKPI(){
   document.getElementById('k1').textContent=lv?lv.cm.toFixed(1)+'%':'—';
   const lf=CURVES[1]?.d.filter(d=>d.cm!=null).pop();
   document.getElementById('k2').textContent=lf?Math.round(lf.cm):'—';
-  // banchina: sum av pesato
+  // banchina: sum av pesato da colonne 17-20 di BPA
   let tot=0;
-  D.BPA.filter(r=>r[1]&&r[1]!=='').forEach(r=>{
-    const qty=n(r[2])||0,peso=n(r[3])||0,eseg=n(r[4])||0;
-    if(qty>0)tot+=(eseg/qty)*(peso<=1?peso*100:peso);
+  D.BPA.filter(r=>r[17]&&r[17]!==''&&r[17]!=='Attività').forEach(r=>{
+    const qty=n(r[18])||0,peso=n(r[19])||0,eseg=n(r[20])||0;
+    if(qty>0) tot+=(eseg/qty)*peso;
   });
   document.getElementById('k3').textContent=tot>0?tot.toFixed(1)+'%':'—';
 }
@@ -360,7 +364,7 @@ function mkChart(data,opt){
     s+=`<text x="${pL+cW+3}" y="${(y+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;}
   if(todayI>=0){const tx=xc(todayI);
     s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
-    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">oggi</text>`;}
+    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">time now</text>`;}
   bk.forEach((k,ki)=>data.forEach((d,i)=>{
     const v=+(d[k]??0);if(v<=0)return;
     const off=(ki-bk.length/2+0.5)*bw,x=xc(i)+off-bw/2,h=v/lMax*cH,y=pT+cH-h;
@@ -476,29 +480,30 @@ function updPL(){
 
 // ── BANCHINA CURVA ────────────────────────────────────────────────────────────
 function renderBanc(){
-  // tabella pesata — col 0=tipologia, 1=attività, 2=qtà, 3=peso%, 4=eseguiti
-  const brows=D.BPA.filter(r=>r[1]&&r[1]!=='');
+  // Tabella pesata: legge colonne 16-21 dalle righe Q6..Q1 del BANCHINA_PALI
+  // col 16=tipologia, 17=attività, 18=qtà, 19=peso%, 20=eseguiti, 21=av%
   let tot=0,lastTipo='',bhtml='';
+  const brows=D.BPA.filter(r=>r[17]&&r[17]!==''&&r[17]!=='Attività');
   brows.forEach((r,i)=>{
-    const tipo=r[0]||'',attiv=r[1]||'';
-    const qty=n(r[2])||0,pesoRaw=n(r[3])||0,peso=pesoRaw<=1?pesoRaw*100:pesoRaw;
-    const eseg=n(r[4])||0,av=qty>0?(eseg/qty)*(peso/100)*100:0;
+    const tipo=r[16]||'', attiv=r[17]||'';
+    const qty=n(r[18])||0, peso=n(r[19])||0, eseg=n(r[20])||0;
+    const av=qty>0?(eseg/qty)*peso:0; // peso già in % (40, 20, 10, 30)
     tot+=av;
     const tc=tipo&&tipo!==lastTipo?`<td style="text-align:left;font-weight:700;color:var(--navy)">${tipo}</td>`:'<td></td>';
-    if(tipo)lastTipo=tipo;
+    if(tipo) lastTipo=tipo;
     bhtml+=`<tr style="background:${i%2===0?'#F8F9FC':'#fff'}">${tc}<td style="text-align:left">${attiv}</td><td>${qty}</td><td>${peso.toFixed(0)}%</td><td style="font-weight:700;color:var(--blue)">${eseg}</td><td>${bdg(Math.round(av*10)/10)}</td></tr>`;
   });
-  if(bhtml)bhtml+=`<tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:11px">${tot.toFixed(1)}%</span></td></tr>`;
+  if(bhtml) bhtml+=`<tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:11px">${tot.toFixed(1)}%</span></td></tr>`;
   document.getElementById('bpbody').innerHTML=bhtml||'<tr><td colspan="6" class="spin">Caricamento…</td></tr>';
   document.getElementById('bpsub').textContent=tot>0?`Avanzamento pesato: ${tot.toFixed(1)}%`:'';
 
-  // curva — col 0=settimana, 1=data, 2=piano_sett, 3=cons_sett, 4=piano_cum, 5=cons_cum
-  const bcData=D.BCU;if(!bcData.length)return;
+  // Curva: col 0=settimana, 1=data, 2=piano_sett, 3=cons_sett, 4=piano_cum, 5=cons_cum, 6=piano%, 7=reale%
+  const bcData=D.BCU; if(!bcData.length) return;
   BR={};
   bcData.forEach((r,i)=>{
-    const cc=n(r[5]),cs=n(r[3]);
-    if(cc!=null)BR[i]=cc;
-    else if(cs!=null&&i>0&&BR[i-1]!=null)BR[i]=BR[i-1]+cs;
+    const cc=n(r[5]), cs=n(r[3]);
+    if(cc!=null) BR[i]=cc;
+    else if(cs!=null&&i>0&&BR[i-1]!=null) BR[i]=BR[i-1]+cs;
   });
   const totalP=50,li=Object.keys(BR).length?Math.max(...Object.keys(BR).map(Number)):2;
   const lc2=BR[li]??0;
