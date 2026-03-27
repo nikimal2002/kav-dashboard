@@ -68,7 +68,7 @@ svg.ch{width:100%;display:block;overflow:visible;}
 <div class="hdr">
   <div class="hbdg">KAV</div>
   <div class="htit">Report Palificazione</div>
-  <div class="hwk" id="hwk">Fincantieri Monfalcone</div>
+  <div class="hwk" id="hwk">Fincantieri · v4</div>
 </div>
 
 <div class="sbar">
@@ -271,9 +271,9 @@ async function loadAll(){
 // ── BUILD ALL ─────────────────────────────────────────────────────────────────
 function buildAll(){
   buildCurves(); buildAvanz(); buildPali();
+  updKPI();
   goCurve(curC); goAvanz(curA);
   if(document.getElementById('v-banchina').classList.contains('on')){renderPali();renderBanc();}
-  updKPI();
 }
 
 // ── PARSE CURVE ───────────────────────────────────────────────────────────────
@@ -351,16 +351,25 @@ function defaultPS(){
 
 // ── KPI ───────────────────────────────────────────────────────────────────────
 function updKPI(){
-  const lt=CURVES[0]?.d.filter(d=>d.cm!=null).pop();
-  document.getElementById('k0').textContent=lt?lt.cm.toFixed(1)+'%':'—';
-  const lv=CURVES[2]?.d.filter(d=>d.cm!=null).pop();
-  document.getElementById('k1').textContent=lv?lv.cm.toFixed(1)+'%':'—';
-  const lf=CURVES[1]?.d.filter(d=>d.cm!=null).pop();
-  document.getElementById('k2').textContent=lf?Math.round(lf.cm):'—';
-  // banchina: legge col18=qtà, col19=peso%, col20=eseguiti (solo righe con attività valida, non TOTALE)
+  // F3T: ultimo cons.montante = cm della settimana con ultimo cs valorizzato
+  const ltRow=CURVES[0]?.d.filter(d=>d.cs!=null).pop();
+  const ltCm=ltRow?ltRow.cm:CURVES[0]?.d.filter(d=>d.cm!=null).pop()?.cm;
+  document.getElementById('k0').textContent=ltCm!=null?ltCm.toFixed(1)+'%':'—';
+
+  // F3V: stesso approccio
+  const lvRow=CURVES[2]?.d.filter(d=>d.cs!=null).pop();
+  const lvCm=lvRow?lvRow.cm:CURVES[2]?.d.filter(d=>d.cm!=null).pop()?.cm;
+  document.getElementById('k1').textContent=lvCm!=null?lvCm.toFixed(1)+'%':'—';
+
+  // F2V: è in pali (non %), mostra solo il numero senza %
+  const lfRow=CURVES[1]?.d.filter(d=>d.cs!=null).pop();
+  const lfCm=lfRow?lfRow.cm:CURVES[1]?.d.filter(d=>d.cm!=null).pop()?.cm;
+  document.getElementById('k2').textContent=lfCm!=null?Math.round(lfCm):'—';
+
+  // Banchina: legge col18=qtà, col19=peso%, col20=eseguiti
   let tot=0;
   D.BPA.filter(r=>r[17]&&r[17]!==''&&r[17]!=='Attività'&&r[16]!=='TOTALE').forEach(r=>{
-    const qty=n(r[18])||0, peso=n(r[19])||0, eseg=n(r[20])||0;
+    const qty=n(r[18])||0,peso=n(r[19])||0,eseg=n(r[20])||0;
     if(qty>0) tot+=(eseg/qty)*peso;
   });
   document.getElementById('k3').textContent=tot>0?tot.toFixed(1)+'%':'—';
@@ -438,14 +447,15 @@ function goCurve(i){
   document.getElementById('cacc').style.background=CURVES[i].ac;
   document.getElementById('ctit').textContent=CURVES[i].title;
   const d=CURVES[i].d;
-  const lastWkIdx=d.reduce((li,r,i2)=>r.cm!=null?i2:li,-1);
-  const lastWk=lastWkIdx>=0?d[lastWkIdx].w:'—';
+  // "oggi" = ultima settimana con cons.sett valorizzato (cs != null)
+  const lastConsIdx=d.reduce((li,r,i2)=>r.cs!=null?i2:li,-1);
+  const lastWk=lastConsIdx>=0?d[lastConsIdx].w:'—';
   document.getElementById('csub').textContent=`Ultimo consuntivo: ${lastWk}`;
   document.getElementById('cwrap').innerHTML=d.length?mkChart(d,{
     W:580,H:260,pL:44,pR:50,pT:14,pB:32,
     bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
     lk:['pm','cm'],lc:['#4BAD5E','#3AADE0'],ld:['7,4',''],
-    labs:d.map(x=>x.w),todayI:lastWkIdx
+    labs:d.map(x=>x.w),todayI:lastConsIdx
   }):'<div class="spin">Caricamento dati…</div>';
 }
 
