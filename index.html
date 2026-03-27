@@ -388,7 +388,7 @@ function mkChart(data,opt){
     s+=`<text x="${pL+cW+3}" y="${(y+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;}
   if(todayI>=0){const tx=xc(todayI);
     s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
-    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">time now</text>`;}
+    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">last update</text>`;}
   bk.forEach((k,ki)=>data.forEach((d,i)=>{
     const v=+(d[k]??0);if(v<=0)return;
     const off=(ki-bk.length/2+0.5)*bw,x=xc(i)+off-bw/2,h=v/lMax*cH,y=pT+cH-h;
