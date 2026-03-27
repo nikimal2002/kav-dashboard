@@ -172,7 +172,15 @@ svg.ch{width:100%;display:block;overflow:visible;}
 <script>
 // ── CONFIG URLS ───────────────────────────────────────────────────────────────
 const BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vQRp9V3E2gzmATLwIIw3bXfQ1glwg5cpPjHFKE-_Hcv0ytJOFbtunssOK2Q0eUVpA/pub?single=true&output=csv&gid=';
-const URLS={F3T:BASE+'1964511733',F2V:BASE+'893791136',F3V:BASE+'113852178',AVV:BASE+'1059325506',AVN:BASE+'1060116987',BPA:BASE+'1468600623',BCU:BASE+'862380480'};
+const URLS={
+  F3T: BASE+'1964511733',  // CURVE_F3_TRIESTE
+  F2V: BASE+'113852178',   // CURVE_F2_VENEZIA  ← era 893791136 (sbagliato)
+  F3V: BASE+'893791136',   // CURVE_F3_VENEZIA  ← era 113852178 (sbagliato)
+  AVV: BASE+'1059325506',  // AVANZ_VALENTINIS
+  AVN: BASE+'1060116987',  // AVANZ_VENEZIA
+  BPA: BASE+'1468600623',  // BANCHINA_PALI
+  BCU: BASE+'862380480',   // BANCHINA_CURVA
+};
 
 // ── STATO ─────────────────────────────────────────────────────────────────────
 let D={F3T:[],F2V:[],F3V:[],AVV:[],AVN:[],BPA:[],BCU:[]};
@@ -514,7 +522,7 @@ function renderBanc(){
   document.getElementById('bpsub').textContent=tot>0?`Avanzamento pesato: ${tot.toFixed(1)}%`:'';
 
   // Curva: col 0=settimana, 1=data, 2=piano_sett, 3=cons_sett, 4=piano_cum, 5=cons_cum, 6=piano%, 7=reale%
-  const bcData=D.BCU; if(!bcData.length) return;
+  const bcData=D.BCU.filter(r=>r[0]&&/^W\d+/.test(r[0])); if(!bcData.length) return;
   BR={};
   bcData.forEach((r,i)=>{
     const cc=n(r[5]), cs=n(r[3]);
