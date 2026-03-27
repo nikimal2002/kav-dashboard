@@ -174,13 +174,13 @@ svg.ch{width:100%;display:block;overflow:visible;}
 // ── CONFIG URLS ───────────────────────────────────────────────────────────────
 const BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vQRp9V3E2gzmATLwIIw3bXfQ1glwg5cpPjHFKE-_Hcv0ytJOFbtunssOK2Q0eUVpA/pub?single=true&output=csv&gid=';
 const URLS={
-  F3T: BASE+'113852178',   // CURVE_F3_TRIESTE  (confermato da debug: pm=50 cm=60.9)
-  F2V: BASE+'1964511733',  // CURVE_F2_VENEZIA  (confermato da debug: ps=29.5 cs=18)
-  F3V: BASE+'893791136',   // CURVE_F3_VENEZIA  (confermato da debug: ps=2.74 cm=6)
-  AVV: BASE+'1059325506',  // AVANZ_VALENTINIS
-  AVN: BASE+'1060116987',  // AVANZ_VENEZIA
-  BPA: BASE+'1468600623',  // BANCHINA_PALI
-  BCU: BASE+'862380480',   // BANCHINA_CURVA
+  F3T: BASE+'893791136',   // CURVE_F3_TRIESTE  (debug: w=W05 pm=50 cm=60,9)
+  F2V: BASE+'1964511733',  // CURVE_F2_VENEZIA  (debug: w=W06 ps=29,5 cs=18)
+  F3V: BASE+'113852178',   // CURVE_F3_VENEZIA  (debug: w=W06 ps=2,74 cm=6)
+  AVV: BASE+'1059325506',
+  AVN: BASE+'1060116987',
+  BPA: BASE+'1468600623',
+  BCU: BASE+'862380480',
 };
 
 // ── STATO ─────────────────────────────────────────────────────────────────────
@@ -262,11 +262,14 @@ async function loadAll(){
     const dbg=document.getElementById('dbg');
     if(dbg){
       const r0=f3t[0]||[]; const r1=f2v[0]||[]; const r2=f3v[0]||[];
+      const lastF3T=f3t.filter(r=>r[3]!=='').pop()||[];
+      const lastF3V=f3v.filter(r=>r[3]!=='').pop()||[];
+      const lastF2V=f2v.filter(r=>r[3]!=='').pop()||[];
       dbg.innerHTML=
-        `<b>F3T row0:</b> w=${r0[0]} ps=${r0[2]} cs=${r0[3]} pm=${r0[4]} cm=${r0[5]}<br>`+
-        `<b>F2V row0:</b> w=${r1[0]} ps=${r1[2]} cs=${r1[3]} pm=${r1[4]} cm=${r1[5]}<br>`+
-        `<b>F3V row0:</b> w=${r2[0]} ps=${r2[2]} cs=${r2[3]} pm=${r2[4]} cm=${r2[5]}<br>`+
-        `<b>F3T righe:</b> ${f3t.length} | <b>F2V righe:</b> ${f2v.length} | <b>F3V righe:</b> ${f3v.length}`;
+        `<b>F3T</b> row0: w=${r0[0]} pm=${r0[4]} cm=${r0[5]} | ultimo cs: wk=${lastF3T[0]} cm=${lastF3T[5]}<br>`+
+        `<b>F2V</b> row0: w=${r1[0]} ps=${r1[2]} cs=${r1[3]} | ultimo cs: wk=${lastF2V[0]} cm=${lastF2V[5]}<br>`+
+        `<b>F3V</b> row0: w=${r2[0]} ps=${r2[2]} cm=${r2[5]} | ultimo cs: wk=${lastF3V[0]} cm=${lastF3V[5]}<br>`+
+        `righe: F3T=${f3t.length} F2V=${f2v.length} F3V=${f3v.length}`;
     }
 
     buildAll();
@@ -409,7 +412,7 @@ function mkChart(data,opt){
     s+=`<text x="${pL+cW+3}" y="${(y+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;}
   if(todayI>=0){const tx=xc(todayI);
     s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
-    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">last update</text>`;}
+    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">oggi</text>`;}
   bk.forEach((k,ki)=>data.forEach((d,i)=>{
     const v=+(d[k]??0);if(v<=0)return;
     const off=(ki-bk.length/2+0.5)*bw,x=xc(i)+off-bw/2,h=v/lMax*cH,y=pT+cH-h;
@@ -459,7 +462,7 @@ function goCurve(i){
   document.getElementById('cacc').style.background=CURVES[i].ac;
   document.getElementById('ctit').textContent=CURVES[i].title;
   const d=CURVES[i].d;
-  // "last update" = ultima settimana con cons.sett valorizzato (cs != null)
+  // "oggi" = ultima settimana con cons.sett valorizzato (cs != null)
   const lastConsIdx=d.reduce((li,r,i2)=>r.cs!=null?i2:li,-1);
   const lastWk=lastConsIdx>=0?d[lastConsIdx].w:'—';
   document.getElementById('csub').textContent=`Ultimo consuntivo: ${lastWk}`;
