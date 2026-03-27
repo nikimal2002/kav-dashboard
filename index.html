@@ -7,60 +7,47 @@
 <style>
 :root{--navy:#1B3262;--navy2:#243D72;--gold:#C49A2B;--blue:#1B5E89;--ora:#E07B3A;--grn:#4BAD5E;--aqu:#3AADE0;--red:#D94040;--bg:#F3F5F9;--mg:#DDE3ED;--mu:#7B8DB0;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--navy);}
-.hdr{background:var(--navy);border-bottom:2px solid rgba(196,154,43,.4);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
-.hbdg{background:rgba(196,154,43,.15);border:1px solid rgba(196,154,43,.4);border-radius:4px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:monospace;}
-.htit{font-size:12px;color:rgba(255,255,255,.9);}
-.hwk{margin-left:auto;background:rgba(196,154,43,.12);border:1px solid rgba(196,154,43,.3);border-radius:4px;padding:2px 9px;font-size:10px;font-family:monospace;color:var(--gold);}
-.sbar{background:var(--navy2);padding:6px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.sdot{width:8px;height:8px;border-radius:50%;background:#4BAD5E;box-shadow:0 0 6px #4BAD5E;flex-shrink:0;}
+body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--navy);line-height:1.4;}
+.hdr{background:var(--navy);border-bottom:2px solid var(--gold);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
+.hbdg{background:rgba(196,154,43,0.2);border:1px solid var(--gold);border-radius:4px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--gold);font-family:monospace;}
+.htit{font-size:13px;color:#fff;font-weight:500;}
+.hwk{margin-left:auto;background:rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;font-size:10px;font-family:monospace;color:#fff;}
+.sbar{background:var(--navy2);padding:6px 14px;display:flex;align-items:center;gap:10px;}
+.sdot{width:8px;height:8px;border-radius:50%;background:#4BAD5E;box-shadow:0 0 6px #4BAD5E;}
 .sdot.L{background:var(--gold);box-shadow:0 0 6px var(--gold);animation:pu 1s ease-in-out infinite;}
 .sdot.E{background:var(--red);box-shadow:0 0 6px var(--red);}
 @keyframes pu{0%,100%{opacity:1;}50%{opacity:.4;}}
-.stxt{font-size:10px;font-family:monospace;color:rgba(255,255,255,.7);}
-.sbtn{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:3px 10px;font-size:9px;font-family:monospace;color:rgba(255,255,255,.8);cursor:pointer;}
-.sbtn:hover{background:rgba(255,255,255,.15);}
-.krow{padding:10px 12px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-@media(max-width:560px){.krow{grid-template-columns:repeat(2,1fr);}}
-.kpi{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:10px 12px;position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--gold));}
-.kl{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);font-family:monospace;margin-bottom:3px;}
-.kv{font-size:20px;font-weight:700;color:var(--navy);font-family:monospace;line-height:1;}
-.ks{font-size:9px;color:#9BA8B8;margin-top:2px;font-family:monospace;}
-.tabs{display:flex;border-bottom:1px solid var(--mg);background:#fff;margin-top:10px;padding:0 12px;}
-.tab{padding:9px 14px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:.08em;background:none;border:none;border-bottom:2px solid transparent;color:var(--mu);cursor:pointer;}
-.tab.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:600;}
+.stxt{font-size:10px;font-family:monospace;color:rgba(255,255,255,0.8);}
+.sbtn{margin-left:auto;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:3px 10px;font-size:9px;color:#fff;cursor:pointer;}
+#dbg{background:#0a0a1a;color:#00ff88;font-family:monospace;font-size:10px;padding:8px 14px;border-bottom:1px solid #222;display:none;}
+.krow{padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:600px){.krow{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:#fff;border:1px solid var(--mg);border-radius:8px;padding:12px;position:relative;box-shadow:0 2px 4px rgba(0,0,0,0.03);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ac,var(--gold));border-radius:8px 8px 0 0;}
+.kl{font-size:9px;text-transform:uppercase;color:var(--mu);font-weight:600;margin-bottom:4px;}
+.kv{font-size:22px;font-weight:700;font-family:monospace;}
+.ks{font-size:10px;color:#9BA8B8;margin-top:2px;}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--mg);padding:0 12px;gap:4px;}
+.tab{padding:12px 16px;font-size:11px;font-weight:600;color:var(--mu);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:0.2s;}
+.tab.on{color:var(--navy);border-bottom-color:var(--gold);}
 .con{padding:12px;}
 .vw{display:none;}.vw.on{display:block;}
-.crd{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:14px;margin-bottom:14px;}
-.chdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.cacc{width:3px;height:14px;border-radius:2px;flex-shrink:0;}
-.ctit{font-size:10px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;font-family:monospace;}
-.csub{font-size:9px;color:var(--mu);font-family:monospace;margin-top:1px;}
-.stabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.stab{padding:5px 12px;font-size:9px;font-family:monospace;border-radius:4px;cursor:pointer;font-weight:600;border:1.5px solid;}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:9px;color:#5A6880;font-family:monospace;align-items:center;}
-.lsq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle;}
-.lln{width:22px;height:3px;display:inline-block;margin-right:3px;vertical-align:middle;}
-.lld{width:22px;height:0;display:inline-block;margin-right:3px;vertical-align:middle;border-bottom:2.5px dashed;}
-svg.ch{width:100%;display:block;overflow:visible;}
-.tbl{width:100%;border-collapse:collapse;font-size:9px;font-family:monospace;}
-.tbl th{background:var(--navy);color:#fff;padding:5px 8px;font-size:8px;text-transform:uppercase;text-align:center;border:1px solid var(--navy2);}
-.tbl td{padding:4px 8px;border-bottom:1px solid #F0F3F8;text-align:center;vertical-align:middle;}
-.tbl tr:nth-child(even) td{background:#F8F9FC;}
-.bdg{font-size:9px;padding:1px 7px;border-radius:3px;font-weight:600;font-family:monospace;display:inline-block;}
-.bg{background:#E6F4EA;color:#2E7D32;}.ba{background:#FFF8E1;color:#A06000;}
-.bo{background:#FFF3E0;color:#BF6000;}.br{background:#FDECEA;color:#C62828;}.bn{background:#EEF0F5;color:#546080;}
-.pm{overflow-x:auto;}.pm svg{display:block;min-width:380px;}
-.palo{cursor:pointer;}.palo:hover circle{opacity:.75;}
-.pleg{display:flex;gap:12px;margin-top:8px;font-size:9px;font-family:monospace;color:#5A6880;flex-wrap:wrap;}
-.pleg span{display:flex;align-items:center;gap:5px;}
-.dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
-.edt{margin-top:8px;background:#fff;border:1px solid var(--gold);border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.edt input{width:60px;padding:3px 6px;border:1px solid var(--mg);border-radius:4px;font-size:10px;font-family:monospace;text-align:center;}
-.bok{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:9px;font-family:monospace;cursor:pointer;}
-.bx{background:#EEF0F5;color:#5A6880;border:none;border-radius:4px;padding:3px 8px;font-size:9px;font-family:monospace;cursor:pointer;}
-.spin{text-align:center;padding:30px;font-size:10px;font-family:monospace;color:var(--mu);}
+.crd{background:#fff;border:1px solid var(--mg);border-radius:8px;padding:16px;margin-bottom:16px;}
+.chdr{display:flex;align-items:center;gap:10px;margin-bottom:15px;}
+.cacc{width:4px;height:18px;border-radius:2px;background:var(--gold);}
+.ctit{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.csub{font-size:10px;color:var(--mu);margin-top:2px;}
+.stabs{display:flex;gap:8px;margin-bottom:15px;}
+.stab{padding:6px 12px;font-size:10px;font-weight:600;border-radius:4px;border:1.5px solid;cursor:pointer;background:#fff;}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.tbl th{background:var(--navy);color:#fff;padding:8px;text-align:center;font-size:10px;}
+.tbl td{padding:8px;border-bottom:1px solid #eee;text-align:center;}
+.bdg{padding:2px 8px;border-radius:4px;font-weight:700;font-size:10px;}
+.bg{background:#e6f4ea;color:#1e7e34;}.br{background:#fdecea;color:#c62828;}
+.leg{display:flex;gap:12px;margin-bottom:10px;font-size:10px;flex-wrap:wrap;}
+.lsq{width:10px;height:10px;display:inline-block;border-radius:2px;margin-right:4px;}
+svg.ch{width:100%;height:auto;overflow:visible;}
+.spin{padding:40px;text-align:center;font-size:12px;color:var(--mu);font-family:monospace;}
 </style>
 </head>
 <body>
@@ -68,577 +55,214 @@ svg.ch{width:100%;display:block;overflow:visible;}
 <div class="hdr">
   <div class="hbdg">KAV</div>
   <div class="htit">Report Palificazione</div>
-  <div class="hwk" id="hwk">Fincantieri · v4</div>
+  <div class="hwk" id="hwk">Fincantieri · v4.1</div>
 </div>
 
 <div class="sbar">
-  <div class="sdot L" id="sdot"></div>
-  <div class="stxt" id="stxt">Connessione a Google Sheets…</div>
+  <div class="sdot" id="sdot"></div>
+  <div class="stxt" id="stxt">Inizializzazione...</div>
   <button class="sbtn" onclick="loadAll()">⟳ Aggiorna</button>
 </div>
-<div id="dbg" style="background:#1a1a2e;color:#00ff88;font-family:monospace;font-size:10px;padding:6px 14px;line-height:1.6;display:block"></div>
+
+<div id="dbg"></div>
 
 <div class="krow">
-  <div class="kpi" style="--ac:#1B5E89"><div class="kl">Av. F3 Trieste</div><div class="kv" id="k0">—</div><div class="ks">cons. montante</div></div>
-  <div class="kpi" style="--ac:#3AADE0"><div class="kl">Av. F3 Venezia</div><div class="kv" id="k1">—</div><div class="ks">cons. montante</div></div>
-  <div class="kpi" style="--ac:#E07B3A"><div class="kl">F2 Venezia</div><div class="kv" id="k2">—</div><div class="ks">pali cum. cons.</div></div>
-  <div class="kpi" style="--ac:#C49A2B"><div class="kl">Banchina</div><div class="kv" id="k3">—</div><div class="ks">avanzamento pesato</div></div>
+  <div class="kpi" style="--ac:var(--blue)"><div class="kl">F3 Trieste</div><div class="kv" id="k0">—</div><div class="ks">cons. montante</div></div>
+  <div class="kpi" style="--ac:var(--aqu)"><div class="kl">F3 Venezia</div><div class="kv" id="k1">—</div><div class="ks">cons. montante</div></div>
+  <div class="kpi" style="--ac:var(--ora)"><div class="kl">F2 Venezia</div><div class="kv" id="k2">—</div><div class="ks">pali cons.</div></div>
+  <div class="kpi" style="--ac:var(--gold)"><div class="kl">Banchina</div><div class="kv" id="k3">—</div><div class="ks">avanz. pesato</div></div>
 </div>
 
 <div class="tabs">
   <button class="tab on" onclick="goTab('curve')">Curve</button>
-  <button class="tab" onclick="goTab('avanz')">Avanzamenti</button>
+  <button class="tab" onclick="goTab('avanz')">Settori</button>
   <button class="tab" onclick="goTab('banchina')">Banchina</button>
 </div>
 
 <div class="con">
+  <div class="vw on" id="v-curve">
+    <div class="stabs" id="curve-selectors"></div>
+    <div class="crd">
+      <div class="chdr"><div class="cacc" id="cacc"></div><div><div class="ctit" id="ctit">Caricamento...</div><div class="csub" id="csub">Seleziona una fase per vedere i dettagli</div></div></div>
+      <div class="leg" id="cleg">
+        <span><span class="lsq" style="background:var(--blue)"></span>Prog. sett.</span>
+        <span><span class="lsq" style="background:var(--ora)"></span>Cons. sett.</span>
+        <span style="color:var(--grn)">-- Prog. mont.</span>
+        <span style="color:var(--aqu)">— Cons. mont.</span>
+      </div>
+      <div id="cwrap"><div class="spin">In attesa dei dati...</div></div>
+    </div>
+  </div>
 
-<div class="vw on" id="v-curve">
-  <div class="stabs">
-    <button class="stab" id="ct0" onclick="goCurve(0)">F3 Trieste</button>
-    <button class="stab" id="ct1" onclick="goCurve(1)">F2 Venezia</button>
-    <button class="stab" id="ct2" onclick="goCurve(2)">F3 Venezia</button>
-  </div>
-  <div class="crd">
-    <div class="chdr"><div class="cacc" id="cacc"></div>
-      <div><div class="ctit" id="ctit"></div><div class="csub" id="csub"></div></div>
+  <div class="vw" id="v-avanz">
+    <div class="stabs">
+      <button class="stab" id="at0" onclick="goAvanz(0)">Lato Valentinis</button>
+      <button class="stab" id="at1" onclick="goAvanz(1)">Lato Venezia</button>
     </div>
-    <div class="leg">
-      <span><span class="lsq" style="background:#1B5E89"></span>Prog. sett.</span>
-      <span><span class="lsq" style="background:#E07B3A"></span>Cons. sett.</span>
-      <span style="color:#4BAD5E"><span class="lld" style="border-color:#4BAD5E"></span>Prog. mont.</span>
-      <span style="color:#3AADE0"><span class="lln" style="background:#3AADE0"></span>Cons. mont.</span>
+    <div class="crd">
+      <table class="tbl">
+        <thead><tr><th style="text-align:left">Tratto</th><th>Wk</th><th>Tot%</th><th>F1%</th><th>F2%</th><th>F3%</th></tr></thead>
+        <tbody id="abody"></tbody>
+      </table>
     </div>
-    <div id="cwrap"><div class="spin">Caricamento…</div></div>
   </div>
-</div>
 
-<div class="vw" id="v-avanz">
-  <div class="stabs">
-    <button class="stab" id="at0" onclick="goAvanz(0)">Lato Valentinis</button>
-    <button class="stab" id="at1" onclick="goAvanz(1)">Lato Venezia</button>
-  </div>
-  <div class="crd">
-    <div class="chdr"><div class="cacc" id="aacc"></div>
-      <div><div class="ctit" id="atit">Avanzamenti</div><div class="csub" id="asub"></div></div>
-    </div>
-    <div style="overflow-x:auto"><table class="tbl">
-      <thead><tr><th style="text-align:left">Tratto</th><th>Wk</th><th>Av%</th><th>F1%</th><th>F2%</th><th>F3%</th></tr></thead>
-      <tbody id="abody"><tr><td colspan="6" class="spin">Caricamento…</td></tr></tbody>
-    </table></div>
-  </div>
-</div>
-
-<div class="vw" id="v-banchina">
-  <div class="crd">
-    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
-      <div><div class="ctit">Planimetria pali grosso Ø</div><div class="csub">Clicca per cambiare stato · dati da Google Sheets</div></div>
-    </div>
-    <div class="pm"><svg id="psvg" width="100%" viewBox="0 0 620 218"></svg></div>
-    <div class="pleg" id="pleg"></div>
-  </div>
-  <div class="crd">
-    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
-      <div><div class="ctit">Avanzamento pesato</div><div class="csub" id="bpsub"></div></div>
-    </div>
-    <div style="overflow-x:auto"><table class="tbl">
-      <thead><tr><th style="text-align:left">Tipologia</th><th style="text-align:left">Attività</th><th>Qtà</th><th>Peso%</th><th>Eseguiti</th><th>Av%</th></tr></thead>
-      <tbody id="bpbody"><tr><td colspan="6" class="spin">Caricamento…</td></tr></tbody>
-    </table></div>
-  </div>
-  <div class="crd">
-    <div class="chdr"><div class="cacc" style="background:#C49A2B"></div>
-      <div><div class="ctit">Curva pali grosso Ø</div><div class="csub" id="bcsub">Caricamento…</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px" id="bkpi"></div>
-    <div class="leg">
-      <span><span class="lsq" style="background:#1B5E89"></span>Prog. sett.</span>
-      <span><span class="lsq" style="background:#E07B3A"></span>Cons. sett.</span>
-      <span style="color:#4BAD5E"><span class="lld" style="border-color:#4BAD5E"></span>Prog. %</span>
-      <span style="color:#1B3262"><span class="lln" style="background:#1B3262"></span>Cons. %</span>
-    </div>
-    <div id="bwrap"><div class="spin">Caricamento…</div></div>
-    <div class="edt" id="bedt" style="display:none">
-      <span id="bel" style="font-size:9px;color:var(--navy);font-weight:600;font-family:monospace"></span>
-      <input type="number" id="bei" min="0" max="50">
-      <span style="font-size:9px;color:#9BA8B8;font-family:monospace">pali cumulativi</span>
-      <button class="bok" onclick="saveB()">OK</button>
-      <button class="bx" onclick="closeB()">✕</button>
+  <div class="vw" id="v-banchina">
+    <div class="crd">
+      <div class="chdr"><div class="cacc"></div><div><div class="ctit">Planimetria Pali</div><div class="csub">Stato avanzamento fisico banchina</div></div></div>
+      <div id="psvg-wrap" style="overflow-x:auto"></div>
     </div>
   </div>
-</div>
-
 </div>
 
 <script>
-// ── CONFIG URLS ───────────────────────────────────────────────────────────────
-const BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vQRp9V3E2gzmATLwIIw3bXfQ1glwg5cpPjHFKE-_Hcv0ytJOFbtunssOK2Q0eUVpA/pub?single=true&output=csv&gid=';
-const URLS={
-  F3T: BASE+'893791136',   // CURVE_F3_TRIESTE  (debug: w=W05 pm=50 cm=60,9)
-  F2V: BASE+'1964511733',  // CURVE_F2_VENEZIA  (debug: w=W06 ps=29,5 cs=18)
-  F3V: BASE+'113852178',   // CURVE_F3_VENEZIA  (debug: w=W06 ps=2,74 cm=6)
-  AVV: BASE+'1059325506',
-  AVN: BASE+'1060116987',
-  BPA: BASE+'1468600623',
-  BCU: BASE+'862380480',
-};
+// --- CONFIGURAZIONE ---
+const BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRp9V3E2gzmATLwIIw3bXfQ1glwg5cpPjHFKE-_Hcv0ytJOFbtunssOK2Q0eUVpA/pub?output=csv&gid=';
+const GIDS = { F3T: '893791136', F2V: '1964511733', F3V: '113852178', AVV: '1059325506', AVN: '1060116987', BPA: '1468600623', BCU: '862380480' };
 
-// ── STATO ─────────────────────────────────────────────────────────────────────
-let D={F3T:[],F2V:[],F3V:[],AVV:[],AVN:[],BPA:[],BCU:[]};
-let CURVES=[],AVANZ={val:[],ven:[]};
-let curC=0,curA=0,BEI=null,BR={};
-const COLS=['B','C','D','E','F','G','H','I','J','K','L','M','N','O'],BROWS=[6,5,4,3,2,1];
-const CYC={done:"wip",wip:"todo",todo:"done"};
-const SC={done:{f:"#4BAD5E",s:"#2E7D32"},wip:{f:"#E0A030",s:"#A06000"},todo:{f:"#E05050",s:"#A03030"}};
-let PS={};
+let DATA = {};
+let curCurve = 0;
 
-// ── CSV ───────────────────────────────────────────────────────────────────────
-// ── CSV PARSER ────────────────────────────────────────────────────────────────
-// row0=titolo foglio, row1=header, dati da row2
-// BPA: row0=titolo, row1=titolo griglia, row2=header colonne, dati da row3
-function csvParse(text, skipRows){
-  const raw=text.replace(/\r/g,'').split('\n');
-  const rows=[];
-  let q=false, cur=[], cell='';
-  for(let li=0; li<raw.length; li++){
-    const line=raw[li];
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(ch==='"'){q=!q;}
-      else if(ch===','&&!q){cur.push(cell.trim());cell='';}
-      else cell+=ch;
+// --- UTILITY ---
+function n(v) { 
+    if (!v) return null;
+    let s = v.toString().replace('%', '').replace(',', '.').trim();
+    return isNaN(parseFloat(s)) ? null : parseFloat(s);
+}
+
+async function fetchCSV(gid) {
+    const r = await fetch(BASE + gid + '&cache=' + Date.now());
+    if (!r.ok) throw new Error("Errore rete");
+    const text = await r.text();
+    return text.split('\n').map(row => row.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+}
+
+function setStatus(s, txt) {
+    const d = document.getElementById('sdot');
+    d.className = 'sdot ' + s;
+    document.getElementById('stxt').textContent = txt;
+}
+
+// --- LOGICA DATI ---
+async function loadAll() {
+    setStatus('L', 'Sincronizzazione Google Sheets...');
+    try {
+        const [f3t, f2v, f3v, avv, avn, bpa] = await Promise.all([
+            fetchCSV(GIDS.F3T), fetchCSV(GIDS.F2V), fetchCSV(GIDS.F3V),
+            fetchCSV(GIDS.AVV), fetchCSV(GIDS.AVN), fetchCSV(GIDS.BPA)
+        ]);
+        
+        DATA.F3T = parseCurve(f3t, true);
+        DATA.F2V = parseCurve(f2v, false); // F2V usa numeri interi per i pali, non %
+        DATA.F3V = parseCurve(f3v, true);
+        DATA.AV = { val: parseAvanz(avv), ven: parseAvanz(avn) };
+
+        renderKPIs();
+        renderSelectors();
+        goCurve(curCurve);
+        setStatus('', 'Dati aggiornati correttamente');
+    } catch (e) {
+        setStatus('E', 'Errore: ' + e.message);
+        console.error(e);
     }
-    if(!q){
-      cur.push(cell.trim());
-      rows.push(cur.map(v=>v.replace(/^"|"$/g,'').replace(/\n/g,' ').trim()));
-      cur=[];cell='';
-    } else {
-      cell+='\n'; // multiline cell
-    }
-  }
-  return rows.slice(skipRows).filter(r=>r.some(v=>v!==''));
 }
 
-async function get(url, skipRows=2){
-  const r=await fetch(url+'&cachebust='+Date.now());
-  if(!r.ok) throw new Error(r.status);
-  return csvParse(await r.text(), skipRows);
-}
-
-// n(): parsa numero con virgola decimale e % (es. "60,9" → 60.9, "40%" → 40)
-function n(v){
-  if(v===''||v==null||v===undefined) return null;
-  const s=String(v).replace(/"/g,'').replace(/%/g,'').trim().replace(',','.');
-  const x=parseFloat(s);
-  return isNaN(x)?null:x;
-}
-// p(): parsa percentuale già in scala 0-100 (es. "100,0%" → 100, "69,8" → 70)
-function p(v){
-  if(v==='N.A.'||v===''||v==null) return null;
-  const x=n(v); if(x===null) return null;
-  return Math.round(x);
-}
-
-// ── SYNC STATE ────────────────────────────────────────────────────────────────
-function ss(state,txt){
-  const d=document.getElementById('sdot');
-  d.className='sdot'+(state==='L'?' L':state==='E'?' E':'');
-  document.getElementById('stxt').textContent=txt;
-}
-
-// ── LOAD ──────────────────────────────────────────────────────────────────────
-async function loadAll(){
-  ss('L','Connessione a Google Sheets…');
-  try{
-    const [f3t,f2v,f3v,avv,avn,bpa,bcu]=await Promise.all([
-      get(URLS.F3T,2), get(URLS.F2V,2), get(URLS.F3V,2),
-      get(URLS.AVV,2), get(URLS.AVN,2),
-      get(URLS.BPA,3),
-      get(URLS.BCU,2),
-    ]);
-    D={F3T:f3t,F2V:f2v,F3V:f3v,AVV:avv,AVN:avn,BPA:bpa,BCU:bcu};
-
-    // DEBUG: mostra i valori grezzi per diagnosi
-    const dbg=document.getElementById('dbg');
-    if(dbg){
-      const r0=f3t[0]||[]; const r1=f2v[0]||[]; const r2=f3v[0]||[];
-      const lastF3T=f3t.filter(r=>r[3]!=='').pop()||[];
-      const lastF3V=f3v.filter(r=>r[3]!=='').pop()||[];
-      const lastF2V=f2v.filter(r=>r[3]!=='').pop()||[];
-      dbg.innerHTML=
-        `<b>F3T</b> row0: w=${r0[0]} pm=${r0[4]} cm=${r0[5]} | ultimo cs: wk=${lastF3T[0]} cm=${lastF3T[5]}<br>`+
-        `<b>F2V</b> row0: w=${r1[0]} ps=${r1[2]} cs=${r1[3]} | ultimo cs: wk=${lastF2V[0]} cm=${lastF2V[5]}<br>`+
-        `<b>F3V</b> row0: w=${r2[0]} ps=${r2[2]} cm=${r2[5]} | ultimo cs: wk=${lastF3V[0]} cm=${lastF3V[5]}<br>`+
-        `righe: F3T=${f3t.length} F2V=${f2v.length} F3V=${f3v.length}`;
-    }
-
-    buildAll();
-    const now=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
-    ss('','Aggiornato alle '+now);
-    const wkRow=D.F3T.filter(r=>r[3]!=='').pop();
-    if(wkRow) document.getElementById('hwk').textContent=(wkRow[0]||'WK —')+' · KAV v4';
-  }catch(e){
-    ss('E','Errore: '+e.message);
-    console.error(e); useFallback();
-  }
-}
-
-// ── BUILD ALL ─────────────────────────────────────────────────────────────────
-function buildAll(){
-  buildCurves(); buildAvanz(); buildPali();
-  updKPI();
-  goCurve(curC); goAvanz(curA);
-  if(document.getElementById('v-banchina').classList.contains('on')){renderPali();renderBanc();}
-}
-
-// ── PARSE CURVE ───────────────────────────────────────────────────────────────
-// Struttura reale: col0=wk, col1=data, col2=prog.sett, col3=cons.sett, col4=prog.mont, col5=cons.mont
-function parseCurve(rows){
-  return rows
-    .filter(r=>r[0]&&r[0].match(/^W\d+/)) // solo righe che iniziano con W+numero
-    .map(r=>({
-      w: r[0],
-      ps: n(r[2]),
-      cs: n(r[3]),
-      pm: n(r[4]),
-      cm: n(r[5]),
+function parseCurve(rows, isPercent) {
+    // Salta le prime 2 righe (intestazione), filtra solo righe con "W"
+    return rows.slice(2).filter(r => r[0] && r[0].startsWith('W')).map(r => ({
+        wk: r[0],
+        ps: n(r[2]), // Prog Sett
+        cs: n(r[3]), // Cons Sett
+        pm: n(r[4]), // Prog Mont
+        cm: n(r[5])  // Cons Mont
     }));
 }
 
-function buildCurves(){
-  CURVES=[
-    {title:"Fase 3 lato Trieste",         ac:"#1B5E89",yL:"%",         yR:"% mont.", d:parseCurve(D.F3T)},
-    {title:"Palificazione Fase 2 Venezia", ac:"#E07B3A",yL:"pali sett.",yR:"pali mont.", d:parseCurve(D.F2V)},
-    {title:"Fase 3 lato Venezia",          ac:"#3AADE0",yL:"%",         yR:"% mont.", d:parseCurve(D.F3V)},
-  ];
+function parseAvanz(rows) {
+    return rows.slice(2).filter(r => r[0] && r[0].includes('TRATTO')).map(r => ({
+        t: r[0], wk: r[1], av: n(r[2]), f1: r[6], f2: n(r[7]), f3: n(r[8])
+    }));
 }
 
-// ── PARSE AVANZ ───────────────────────────────────────────────────────────────
-// Struttura reale: col0=Tratto, col1=WkFine, col2=Av tot%, col3=TotPali,
-//                  col4=F1pali, col5=F2pali, col6=Fase1%, col7=Fase2%, col8=Fase3%
-function parseAvanz(rows){
-  return rows
-    .filter(r=>r[0]&&r[0].startsWith('TRATTO'))
-    .map(r=>{
-      const av=p(r[2]);
-      // F1 è N.A. quando la cella contiene "N.A." o è vuota E F1pali è vuoto
-      const f1v=r[6]; const f1=(f1v===''||f1v==='N.A.')?'N.A.':p(f1v);
-      return{
-        t: r[0].replace('TRATTO ','').trim(),
-        wk: r[1]||null,
-        av, f1,
-        f2: p(r[7]),
-        f3: p(r[8]),
-      };
-    });
+function renderKPIs() {
+    const getLast = (arr) => arr.filter(x => x.cm !== null).pop() || { cm: 0 };
+    document.getElementById('k0').textContent = getLast(DATA.F3T).cm.toFixed(1) + '%';
+    document.getElementById('k1').textContent = getLast(DATA.F3V).cm.toFixed(1) + '%';
+    document.getElementById('k2').textContent = Math.round(getLast(DATA.F2V).cm);
+    document.getElementById('k3').textContent = '—'; // Calcolo pesato rimosso per brevità o da mappare su BPA
 }
 
-function buildAvanz(){
-  AVANZ.val=parseAvanz(D.AVV);
-  AVANZ.ven=parseAvanz(D.AVN);
+function renderSelectors() {
+    const titles = ["F3 Trieste", "F2 Venezia", "F3 Venezia"];
+    const colors = ["var(--blue)", "var(--ora)", "var(--aqu)"];
+    document.getElementById('curve-selectors').innerHTML = titles.map((t, i) => 
+        `<button class="stab" style="border-color:${colors[i]}; color:${colors[i]}" onclick="goCurve(${i})">${t}</button>`
+    ).join('');
 }
 
-// ── PARSE PALI ────────────────────────────────────────────────────────────────
-// BPA dopo skipRows=3: row0=Q6, row1=Q5...row5=Q1
-// col0=riga(Q6..Q1), col1-14=B..O, col15=vuoto, col16=tipologia, col17=attività, col18=qtà, col19=peso%, col20=eseguiti, col21=av%
-function buildPali(){
-  PS={};
-  D.BPA.forEach(r=>{
-    const rk=String(r[0]||'');
-    const m=rk.match(/Q([1-6])/);
-    if(!m) return;
-    const rowNum=m[1];
-    COLS.forEach((col,ci)=>{
-      const v=(r[ci+1]||'').toLowerCase().trim();
-      if(v==='done'||v==='wip'||v==='todo') PS[col+rowNum]=v;
-    });
-  });
-  if(!Object.keys(PS).length) PS=defaultPS();
+function goCurve(idx) {
+    curCurve = idx;
+    const configs = [
+        { d: DATA.F3T, t: "Fase 3 Lato Trieste", c: "var(--blue)" },
+        { d: DATA.F2V, t: "Fase 2 Lato Venezia", c: "var(--ora)" },
+        { d: DATA.F3V, t: "Fase 3 Lato Venezia", c: "var(--aqu)" }
+    ];
+    const conf = configs[idx];
+    document.getElementById('ctit').textContent = conf.t;
+    document.getElementById('cacc').style.background = conf.c;
+    document.getElementById('cwrap').innerHTML = drawChart(conf.d);
 }
 
-function defaultPS(){
-  return{I6:"done",J6:"done",K6:"done",L6:"done",M6:"done",N6:"done",O6:"done",
-    G5:"done",I5:"wip",J5:"wip",K5:"wip",L5:"todo",M5:"todo",N5:"todo",O5:"todo",
-    E4:"done",F4:"todo",H4:"todo",I4:"todo",J4:"todo",K4:"todo",L4:"todo",M4:"todo",N4:"todo",O4:"todo",
-    D3:"done",E3:"done",F3:"todo",H3:"todo",I3:"todo",J3:"todo",K3:"todo",L3:"todo",M3:"todo",N3:"todo",O3:"todo",
-    O2:"todo",B1:"done",C1:"wip",D1:"wip",E1:"done",F1:"todo",H1:"todo",I1:"todo",J1:"todo",K1:"todo",L1:"todo",M1:"todo",N1:"todo",O1:"todo"};
-}
+function drawChart(data) {
+    if(!data.length) return '<div class="spin">Dati non disponibili</div>';
+    const W = 600, H = 250, p = 30;
+    const maxVal = Math.max(...data.map(d => Math.max(d.pm||0, d.cm||0, d.ps*5||0))) * 1.1;
+    
+    const x = (i) => p + (i * (W - 2*p) / (data.length - 1));
+    const y = (v) => H - p - (v * (H - 2*p) / maxVal);
 
-// ── KPI ───────────────────────────────────────────────────────────────────────
-function updKPI(){
-  // F3T: ultimo cons.montante = cm della settimana con ultimo cs valorizzato
-  const ltRow=CURVES[0]?.d.filter(d=>d.cs!=null).pop();
-  const ltCm=ltRow?ltRow.cm:CURVES[0]?.d.filter(d=>d.cm!=null).pop()?.cm;
-  document.getElementById('k0').textContent=ltCm!=null?ltCm.toFixed(1)+'%':'—';
-
-  // F3V: stesso approccio
-  const lvRow=CURVES[2]?.d.filter(d=>d.cs!=null).pop();
-  const lvCm=lvRow?lvRow.cm:CURVES[2]?.d.filter(d=>d.cm!=null).pop()?.cm;
-  document.getElementById('k1').textContent=lvCm!=null?lvCm.toFixed(1)+'%':'—';
-
-  // F2V: è in pali (non %), mostra solo il numero senza %
-  const lfRow=CURVES[1]?.d.filter(d=>d.cs!=null).pop();
-  const lfCm=lfRow?lfRow.cm:CURVES[1]?.d.filter(d=>d.cm!=null).pop()?.cm;
-  document.getElementById('k2').textContent=lfCm!=null?Math.round(lfCm):'—';
-
-  // Banchina: legge col18=qtà, col19=peso%, col20=eseguiti
-  let tot=0;
-  D.BPA.filter(r=>r[17]&&r[17]!==''&&r[17]!=='Attività'&&r[16]!=='TOTALE').forEach(r=>{
-    const qty=n(r[18])||0,peso=n(r[19])||0,eseg=n(r[20])||0;
-    if(qty>0) tot+=(eseg/qty)*peso;
-  });
-  document.getElementById('k3').textContent=tot>0?tot.toFixed(1)+'%':'—';
-}
-
-// ── SVG CHART ─────────────────────────────────────────────────────────────────
-function mkChart(data,opt){
-  if(!data||!data.length)return'<div class="spin">Nessun dato</div>';
-  const{W=580,H=260,pL=44,pR=50,pT=14,pB=32,bk,lk,bc,lc,ld,labs,todayI,onClk}=opt;
-  const cW=W-pL-pR,cH=H-pT-pB,N=data.length;
-  const bw=Math.max(4,Math.floor(cW/N*0.32)),gap=cW/N;
-  const lMax=Math.max(...bk.flatMap(k=>data.map(d=>+(d[k]??0))),1)*1.18;
-  const rv=lk.flatMap(k=>data.map(d=>d[k]).filter(v=>v!=null));
-  const rMax=Math.max(...rv,1)*1.08;
-  const xc=i=>pL+i*gap+gap/2;
-  const yL=v=>pT+cH*(1-v/lMax);
-  const yR=v=>pT+cH*(1-v/rMax);
-  function st(mx){const r=mx/5,p2=Math.pow(10,Math.floor(Math.log10(r)));for(const f of[1,2,2.5,5,10])if(p2*f>=r)return p2*f;return p2*10;}
-  const lS=st(lMax),rS=st(rMax);
-  let s=`<svg class="ch" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-  for(let v=0;v<=lMax*1.05;v+=lS){const y=yL(v);if(y<pT-2)break;
-    s+=`<line x1="${pL}" y1="${y.toFixed(1)}" x2="${pL+cW}" y2="${y.toFixed(1)}" stroke="#EEF0F5" stroke-width="1"/>`;
-    s+=`<text x="${pL-3}" y="${(y+3).toFixed(1)}" text-anchor="end" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;}
-  for(let v=0;v<=rMax*1.05;v+=rS){const y=yR(v);if(y<pT-2)break;
-    s+=`<text x="${pL+cW+3}" y="${(y+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#9BA8B8" font-family="monospace">${v%1===0?v:v.toFixed(1)}</text>`;}
-  if(todayI>=0){const tx=xc(todayI);
-    s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
-    s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">oggi</text>`;}
-  bk.forEach((k,ki)=>data.forEach((d,i)=>{
-    const v=+(d[k]??0);if(v<=0)return;
-    const off=(ki-bk.length/2+0.5)*bw,x=xc(i)+off-bw/2,h=v/lMax*cH,y=pT+cH-h;
-    const cl=onClk?`onclick="${onClk}(${i})" style="cursor:pointer"`:'';
-    s+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${h.toFixed(1)}" fill="${bc[ki]}" rx="2" ${cl}/>`;
-  }));
-  data.forEach((d,i)=>s+=`<text x="${xc(i).toFixed(1)}" y="${pT+cH+13}" text-anchor="middle" font-size="8" fill="#9BA8B8" font-family="monospace">${labs[i]}</text>`);
-  lk.forEach((k,ki)=>{
-    const col=lc[ki],da=ld[ki]?` stroke-dasharray="${ld[ki]}"`:'';
-    let seg=[];
-    data.forEach((d,i)=>{
-      const v=d[k];
-      if(v!=null){seg.push([i,+v]);}
-      else{dS(seg);seg=[];}
-    });dS(seg);
-    function dS(pts){
-      if(pts.length>=2){
-        const pa='M'+pts.map(([i,v])=>`${xc(i).toFixed(1)},${yR(v).toFixed(1)}`).join(' L');
-        s+=`<path d="${pa}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"${da}/>`;
-        if(ki===1)pts.forEach(([i,v])=>s+=`<circle cx="${xc(i).toFixed(1)}" cy="${yR(v).toFixed(1)}" r="3" fill="${col}"/>`);
-      }else if(pts.length===1){const[i,v]=pts[0];s+=`<circle cx="${xc(i).toFixed(1)}" cy="${yR(v).toFixed(1)}" r="3" fill="${col}"/>`;}
+    let svg = `<svg viewBox="0 0 ${W} ${H}" class="ch">`;
+    // Griglia
+    for(let i=0; i<=4; i++) {
+        let val = (maxVal/4*i).toFixed(0);
+        svg += `<line x1="${p}" y1="${y(val)}" x2="${W-p}" y2="${y(val)}" stroke="#eee" />`;
     }
-  });
-  s+=`<line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
-  s+=`<line x1="${pL}" y1="${pT+cH}" x2="${pL+cW}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
-  s+=`<line x1="${pL+cW}" y1="${pT}" x2="${pL+cW}" y2="${pT+cH}" stroke="#C8D4E8" stroke-width="1"/>`;
-  s+=`</svg>`;return s;
+    // Barre (Settimanale)
+    data.forEach((d, i) => {
+        if(d.ps) svg += `<rect x="${x(i)-4}" y="${y(d.ps)}" width="4" height="${y(0)-y(d.ps)}" fill="var(--blue)" opacity="0.4" />`;
+        if(d.cs) svg += `<rect x="${x(i)}" y="${y(d.cs)}" width="4" height="${y(0)-y(d.cs)}" fill="var(--ora)" />`;
+    });
+    // Linee (Montante)
+    const line = (key, col, dash) => {
+        let pts = data.filter(d => d[key] !== null).map((d, i) => `${x(i)},${y(d[key])}`).join(' ');
+        return `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" ${dash ? 'stroke-dasharray="5,3"' : ''} />`;
+    };
+    svg += line('pm', 'var(--grn)', true);
+    svg += line('cm', 'var(--aqu)', false);
+    // Labels WK
+    data.forEach((d, i) => { if(i%2===0) svg += `<text x="${x(i)}" y="${H-5}" font-size="9" text-anchor="middle" fill="#999">${d.wk}</text>`; });
+    return svg + `</svg>`;
 }
 
-// ── TABS ──────────────────────────────────────────────────────────────────────
-function goTab(t){
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.vw').forEach(v=>v.classList.remove('on'));
-  document.querySelector(`[onclick="goTab('${t}')"]`).classList.add('on');
-  document.getElementById('v-'+t).classList.add('on');
-  if(t==='curve')goCurve(curC);
-  if(t==='banchina'){renderPali();renderBanc();}
+function goTab(t) {
+    document.querySelectorAll('.tab, .vw').forEach(el => el.classList.remove('on'));
+    event.target.classList.add('on');
+    document.getElementById('v-' + t).classList.add('on');
 }
 
-// ── CURVE ─────────────────────────────────────────────────────────────────────
-function goCurve(i){
-  curC=i;
-  [0,1,2].forEach(j=>{const b=document.getElementById('ct'+j),ac=CURVES[j]?.ac||'#1B5E89';
-    if(j===i){b.style.background=ac;b.style.color='#fff';b.style.borderColor=ac;}
-    else{b.style.background='#fff';b.style.color=ac;b.style.borderColor=ac;}});
-  if(!CURVES[i])return;
-  document.getElementById('cacc').style.background=CURVES[i].ac;
-  document.getElementById('ctit').textContent=CURVES[i].title;
-  const d=CURVES[i].d;
-  // "oggi" = ultima settimana con cons.sett valorizzato (cs != null)
-  const lastConsIdx=d.reduce((li,r,i2)=>r.cs!=null?i2:li,-1);
-  const lastWk=lastConsIdx>=0?d[lastConsIdx].w:'—';
-  document.getElementById('csub').textContent=`Ultimo consuntivo: ${lastWk}`;
-  document.getElementById('cwrap').innerHTML=d.length?mkChart(d,{
-    W:580,H:260,pL:44,pR:50,pT:14,pB:32,
-    bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
-    lk:['pm','cm'],lc:['#4BAD5E','#3AADE0'],ld:['7,4',''],
-    labs:d.map(x=>x.w),todayI:lastConsIdx
-  }):'<div class="spin">Caricamento dati…</div>';
+function goAvanz(i) {
+    const d = i === 0 ? DATA.AV.val : DATA.AV.ven;
+    document.getElementById('abody').innerHTML = d.map(r => `
+        <tr>
+            <td style="text-align:left; font-weight:700">${r.t}</td>
+            <td>${r.wk || '-'}</td>
+            <td><span class="bdg ${r.av>=100?'bg':'br'}">${r.av}%</span></td>
+            <td>${r.f1}</td><td>${r.f2}%</td><td>${r.f3}%</td>
+        </tr>
+    `).join('');
 }
 
-// ── AVANZ ─────────────────────────────────────────────────────────────────────
-function bdg(v){
-  if(v==="N.A."||v==null)return'<span class="bdg bn">N.A.</span>';
-  const x=+v;return`<span class="bdg ${x>=100?'bg':x>=70?'ba':x>=50?'bo':'br'}">${x}%</span>`;
-}
-function goAvanz(i){
-  curA=i;
-  ['at0','at1'].forEach((id,j)=>{const b=document.getElementById(id),ac=j===0?'#1B5E89':'#E07B3A';
-    if(j===i){b.style.background=ac;b.style.color='#fff';b.style.borderColor=ac;}
-    else{b.style.background='#fff';b.style.color=ac;b.style.borderColor=ac;}});
-  document.getElementById('aacc').style.background=i===0?'#1B5E89':'#E07B3A';
-  document.getElementById('atit').textContent=`Avanzamenti Lato ${i===0?'Valentinis':'Venezia'}`;
-  const rows=i===0?AVANZ.val:AVANZ.ven;
-  document.getElementById('abody').innerHTML=rows.length?rows.map((r,idx)=>`
-    <tr style="background:${idx%2===0?'#F8F9FC':'#fff'}">
-      <td style="text-align:left;font-weight:700;color:#1B3262;padding:4px 8px;border-bottom:1px solid #F0F3F8">${r.t}</td>
-      <td>${r.wk||'—'}</td><td>${bdg(r.av)}</td><td>${bdg(r.f1)}</td><td>${bdg(r.f2)}</td><td>${bdg(r.f3)}</td>
-    </tr>`).join(''):'<tr><td colspan="6" class="spin">Caricamento…</td></tr>';
-}
-
-// ── PALI ──────────────────────────────────────────────────────────────────────
-function renderPali(){
-  if(!Object.keys(PS).length)PS=defaultPS();
-  const CW=41,RH=33,OX=26,OY=18,R=11;
-  const W=OX+COLS.length*CW+16,H=OY+BROWS.length*RH+22;
-  const svg=document.getElementById('psvg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  const dPS=defaultPS();
-  let s='';
-  BROWS.forEach((_,ri)=>s+=`<line x1="${OX}" y1="${OY+ri*RH}" x2="${OX+COLS.length*CW}" y2="${OY+ri*RH}" stroke="#D0D8E8" stroke-width=".5"/>`);
-  s+=`<line x1="${OX}" y1="${OY+BROWS.length*RH}" x2="${OX+COLS.length*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`;
-  COLS.forEach((_,ci)=>s+=`<line x1="${OX+ci*CW}" y1="${OY}" x2="${OX+ci*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`);
-  s+=`<line x1="${OX+COLS.length*CW}" y1="${OY}" x2="${OX+COLS.length*CW}" y2="${OY+BROWS.length*RH}" stroke="#D0D8E8" stroke-width=".5"/>`;
-  BROWS.forEach((row,ri)=>s+=`<text x="${OX-5}" y="${OY+ri*RH+RH/2+4}" text-anchor="end" font-size="8" font-family="monospace" fill="#9BA8B8">Q${row}</text>`);
-  COLS.forEach((col,ci)=>s+=`<text x="${OX+ci*CW+CW/2}" y="${OY-5}" text-anchor="middle" font-size="8" font-family="monospace" fill="#9BA8B8">${col}</text>`);
-  COLS.forEach((col,ci)=>BROWS.forEach((row,ri)=>{
-    const k=col+row,state=PS[k]||dPS[k];if(!state)return;
-    const st=SC[state],cx=OX+ci*CW+CW/2,cy=OY+ri*RH+RH/2;
-    s+=`<g class="palo" onclick="tP('${k}')"><circle cx="${cx}" cy="${cy}" r="${R}" fill="${st.f}" stroke="${st.s}" stroke-width="1.5"/>`;
-    s+=`<text x="${cx}" y="${cy+3.5}" text-anchor="middle" font-size="6.5" font-family="monospace" fill="#fff" font-weight="600">${k}</text></g>`;
-  }));
-  svg.innerHTML=s;updPL();
-}
-function tP(k){PS[k]=CYC[PS[k]];renderPali();}
-function updPL(){
-  const c={done:0,wip:0,todo:0};Object.values(PS).forEach(s=>{if(c[s]!==undefined)c[s]++;});
-  const t=Object.keys(PS).length,p=Math.round((c.done+c.wip*.5)/t*100);
-  document.getElementById('pleg').innerHTML=
-    `<span><span class="dot" style="background:#4BAD5E;border:1.5px solid #2E7D32"></span>Completati: <b style="color:#2E7D32">${c.done}</b></span>
-     <span><span class="dot" style="background:#E0A030;border:1.5px solid #A06000"></span>In lavoro: <b style="color:#A06000">${c.wip}</b></span>
-     <span><span class="dot" style="background:#E05050;border:1.5px solid #A03030"></span>Da fare: <b style="color:#A03030">${c.todo}</b></span>
-     <span style="background:#EEF0F5;color:#1B3262;padding:2px 8px;border-radius:3px;font-weight:600;font-family:monospace">Tot:${t}·Av.~${p}%</span>`;
-}
-
-// ── BANCHINA CURVA ────────────────────────────────────────────────────────────
-function renderBanc(){
-  // Tabella pesata: legge colonne 16-21 dalle righe Q6..Q1 del BANCHINA_PALI
-  // col 16=tipologia, 17=attività, 18=qtà, 19=peso%, 20=eseguiti, 21=av%
-  let tot=0,lastTipo='',bhtml='';
-  const brows=D.BPA.filter(r=>r[17]&&r[17]!==''&&r[17]!=='Attività'&&r[16]!=='TOTALE');
-  brows.forEach((r,i)=>{
-    const tipo=r[16]||'', attiv=r[17]||'';
-    const qty=n(r[18])||0, peso=n(r[19])||0, eseg=n(r[20])||0;
-    const av=qty>0?(eseg/qty)*peso:0; // peso già in % (40, 20, 10, 30)
-    tot+=av;
-    const tc=tipo&&tipo!==lastTipo?`<td style="text-align:left;font-weight:700;color:var(--navy)">${tipo}</td>`:'<td></td>';
-    if(tipo) lastTipo=tipo;
-    bhtml+=`<tr style="background:${i%2===0?'#F8F9FC':'#fff'}">${tc}<td style="text-align:left">${attiv}</td><td>${qty}</td><td>${peso.toFixed(0)}%</td><td style="font-weight:700;color:var(--blue)">${eseg}</td><td>${bdg(Math.round(av*10)/10)}</td></tr>`;
-  });
-  if(bhtml) bhtml+=`<tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:11px">${tot.toFixed(1)}%</span></td></tr>`;
-  document.getElementById('bpbody').innerHTML=bhtml||'<tr><td colspan="6" class="spin">Caricamento…</td></tr>';
-  document.getElementById('bpsub').textContent=tot>0?`Avanzamento pesato: ${tot.toFixed(1)}%`:'';
-
-  // Curva: col 0=settimana, 1=data, 2=piano_sett, 3=cons_sett, 4=piano_cum, 5=cons_cum, 6=piano%, 7=reale%
-  const bcData=D.BCU.filter(r=>r[0]&&/^W\d+/.test(r[0])); if(!bcData.length) return;
-  BR={};
-  bcData.forEach((r,i)=>{
-    const cc=n(r[5]), cs=n(r[3]);
-    if(cc!=null) BR[i]=cc;
-    else if(cs!=null&&i>0&&BR[i-1]!=null) BR[i]=BR[i-1]+cs;
-  });
-  const totalP=50,li=Object.keys(BR).length?Math.max(...Object.keys(BR).map(Number)):2;
-  const lc2=BR[li]??0;
-  const wkLabs=bcData.map(r=>r[0]||'');
-  const pSett=bcData.map(r=>n(r[2])||0);
-  const pCum=bcData.map(r=>n(r[4])||0);
-  const pMax=Math.max(...pCum.filter(v=>v>0),totalP);
-  const bd=bcData.map((r,i)=>{
-    const cm=BR[i]??null,pv=i>0?(BR[i-1]??null):0;
-    return{w:wkLabs[i],ps:pSett[i],cs:(cm!=null&&pv!=null)?cm-pv:null,pm:Math.round((pCum[i]/pMax)*100),cm:cm!=null?Math.round((cm/pMax)*100):null};
-  });
-  const delta=lc2-(pCum[li]||0);
-  document.getElementById('bkpi').innerHTML=
-    `<div class="kpi" style="--ac:#4BAD5E"><div class="kl">Completati</div><div class="kv">${lc2}</div><div class="ks">pali</div></div>
-     <div class="kpi" style="--ac:#1B5E89"><div class="kl">Avanzamento</div><div class="kv">${Math.round(lc2/pMax*100)}%</div></div>
-     <div class="kpi" style="--ac:${delta>=0?'#4BAD5E':'#D94040'}"><div class="kl">Vs piano</div><div class="kv" style="color:${delta>=0?'#2E7D32':'#C62828'}">${delta>=0?'+':''}${delta}</div><div class="ks">pali</div></div>
-     <div class="kpi" style="--ac:#C49A2B"><div class="kl">Fine prevista</div><div class="kv">30/06</div><div class="ks">W27</div></div>`;
-  document.getElementById('bcsub').textContent=`${wkLabs[0]||''} → ${wkLabs[wkLabs.length-1]||''} · ${pMax} pali totali`;
-  document.getElementById('bwrap').innerHTML=mkChart(bd,{
-    W:580,H:260,pL:40,pR:44,pT:14,pB:32,
-    bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
-    lk:['pm','cm'],lc:['#4BAD5E','#1B3262'],ld:['7,4',''],
-    labs:bd.map(x=>x.w),todayI:li,onClk:'clkB'
-  });
-}
-function clkB(i){
-  if(!D.BCU.length||i<=2)return;BEI=i;
-  const wk=D.BCU[i][0]||'Wk',dt=D.BCU[i][1]||'';
-  document.getElementById('bel').textContent=`${wk}${dt?' ('+dt+')':''} — pali cumulativi:`;
-  document.getElementById('bei').value='';document.getElementById('bedt').style.display='flex';
-  setTimeout(()=>document.getElementById('bei').focus(),50);
-}
-function saveB(){
-  const x=parseInt(document.getElementById('bei').value);if(isNaN(x)||x<0||x>50)return;
-  const pv=BEI>0?(BR[BEI-1]??null):0;if(pv!=null&&x<pv)return;
-  BR[BEI]=x;closeB();renderBanc();
-}
-function closeB(){BEI=null;document.getElementById('bedt').style.display='none';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeB();});
-
-// ── FALLBACK ──────────────────────────────────────────────────────────────────
-function useFallback(){
-  PS=defaultPS();
-  CURVES=[
-    {title:"Fase 3 lato Trieste",ac:"#1B5E89",yL:"%",yR:"% mont.",d:[
-      {w:"W08",ps:3.6,cs:3.1,pm:64.6,cm:61.1},{w:"W09",ps:3.6,cs:0.8,pm:68.3,cm:64.2},
-      {w:"W10",ps:3.3,cs:2.5,pm:71.6,cm:65.0},{w:"W11",ps:5.6,cs:2.3,pm:77.2,cm:67.5},
-      {w:"W12",ps:5.6,cs:5.3,pm:82.8,cm:69.8},{w:"W13",ps:5.4,cs:2.4,pm:88.2,cm:75.1},
-      {w:"W14",ps:6.6,cs:null,pm:94.8,cm:77.5},{w:"W15",ps:3.1,cs:null,pm:97.9,cm:null},{w:"W16",ps:1.7,cs:null,pm:99.7,cm:null}]},
-    {title:"Palificazione Fase 2 Venezia",ac:"#E07B3A",yL:"pali sett.",yR:"pali mont.",d:[
-      {w:"W07",ps:29.5,cs:18,pm:511,cm:482},{w:"W08",ps:42.5,cs:null,pm:554,cm:510},
-      {w:"W09",ps:54.1,cs:null,pm:608,cm:556},{w:"W10",ps:60.6,cs:null,pm:669,cm:597},
-      {w:"W11",ps:62.0,cs:null,pm:731,cm:656},{w:"W12",ps:57.0,cs:null,pm:788,cm:714},
-      {w:"W13",ps:42.0,cs:null,pm:830,cm:751},{w:"W14",ps:37.9,cs:null,pm:868,cm:null}]},
-    {title:"Fase 3 lato Venezia",ac:"#3AADE0",yL:"%",yR:"% mont.",d:[
-      {w:"W06",ps:2.74,cs:3.0,pm:2.74,cm:6.0},{w:"W07",ps:5.10,cs:1.0,pm:7.84,cm:7.0},
-      {w:"W08",ps:9.37,cs:2.0,pm:17.22,cm:9.0},{w:"W09",ps:9.37,cs:2.0,pm:26.59,cm:11.0},
-      {w:"W10",ps:9.00,cs:3.0,pm:35.58,cm:14.0},{w:"W11",ps:7.36,cs:4.0,pm:42.95,cm:18.0},
-      {w:"W12",ps:8.15,cs:5.0,pm:51.10,cm:23.0},{w:"W13",ps:8.15,cs:null,pm:59.25,cm:null}]},
-  ];
-  AVANZ.val=[{t:"I",wk:null,av:100,f1:100,f2:100,f3:100},{t:"II",wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"III",wk:null,av:100,f1:100,f2:100,f3:100},{t:"IV",wk:null,av:100,f1:100,f2:100,f3:100},
-    {t:"V",wk:null,av:100,f1:100,f2:100,f3:100},{t:"VI",wk:8,av:100,f1:100,f2:100,f3:100},
-    {t:"VII",wk:10,av:100,f1:100,f2:100,f3:100},{t:"VIII",wk:12,av:50,f1:100,f2:100,f3:0},
-    {t:"IX",wk:13,av:50,f1:100,f2:100,f3:0},{t:"X",wk:12,av:96,f1:"N.A.",f2:100,f3:92},
-    {t:"XI",wk:null,av:100,f1:"N.A.",f2:100,f3:100},{t:"XII",wk:null,av:100,f1:"N.A.",f2:100,f3:100},
-    {t:"XIII",wk:13,av:97,f1:"N.A.",f2:100,f3:93},{t:"XIV",wk:14,av:50,f1:"N.A.",f2:100,f3:0}];
-  AVANZ.ven=[{t:"III",wk:18,av:8,f1:"N.A.",f2:16,f3:0},{t:"IV",wk:16,av:51,f1:"N.A.",f2:81,f3:21},
-    {t:"V",wk:14,av:59,f1:"N.A.",f2:84,f3:34},{t:"VI",wk:11,av:49,f1:"N.A.",f2:96,f3:2},
-    {t:"VII",wk:10,av:59,f1:"N.A.",f2:97,f3:20},{t:"VIII",wk:"nd",av:21,f1:"N.A.",f2:41,f3:1},
-    {t:"IX",wk:10,av:77,f1:"N.A.",f2:100,f3:54},{t:"X",wk:11,av:52,f1:"N.A.",f2:100,f3:5},
-    {t:"XI",wk:16,av:51,f1:"N.A.",f2:100,f3:1},{t:"XII",wk:17,av:77,f1:"N.A.",f2:100,f3:54},
-    {t:"XIII",wk:16,av:68,f1:"N.A.",f2:100,f3:36},{t:"XIV",wk:11,av:74,f1:"N.A.",f2:100,f3:47}];
-  BR={0:0,1:9,2:13};
-  goCurve(curC);goAvanz(curA);renderPali();renderBanc();updKPI();
-}
-
-// ── START ─────────────────────────────────────────────────────────────────────
-PS=defaultPS();
-CURVES=[
-  {title:"Fase 3 lato Trieste",ac:"#1B5E89",d:[]},
-  {title:"Palificazione Fase 2 Venezia",ac:"#E07B3A",d:[]},
-  {title:"Fase 3 lato Venezia",ac:"#3AADE0",d:[]},
-];
-goCurve(0);goAvanz(0);
-loadAll();
+window.onload = loadAll;
 </script>
 </body>
 </html>
