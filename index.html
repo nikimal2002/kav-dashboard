@@ -76,6 +76,7 @@ svg.ch{width:100%;display:block;overflow:visible;}
   <div class="stxt" id="stxt">Connessione a Google Sheets…</div>
   <button class="sbtn" onclick="loadAll()">⟳ Aggiorna</button>
 </div>
+<div id="dbg" style="background:#1a1a2e;color:#00ff88;font-family:monospace;font-size:10px;padding:6px 14px;line-height:1.6;display:block"></div>
 
 <div class="krow">
   <div class="kpi" style="--ac:#1B5E89"><div class="kl">Av. F3 Trieste</div><div class="kv" id="k0">—</div><div class="ks">cons. montante</div></div>
@@ -252,18 +253,29 @@ async function loadAll(){
     const [f3t,f2v,f3v,avv,avn,bpa,bcu]=await Promise.all([
       get(URLS.F3T,2), get(URLS.F2V,2), get(URLS.F3V,2),
       get(URLS.AVV,2), get(URLS.AVN,2),
-      get(URLS.BPA,3), // 3 righe header: titolo + titolo griglia + header colonne
+      get(URLS.BPA,3),
       get(URLS.BCU,2),
     ]);
     D={F3T:f3t,F2V:f2v,F3V:f3v,AVV:avv,AVN:avn,BPA:bpa,BCU:bcu};
+
+    // DEBUG: mostra i valori grezzi per diagnosi
+    const dbg=document.getElementById('dbg');
+    if(dbg){
+      const r0=f3t[0]||[]; const r1=f2v[0]||[]; const r2=f3v[0]||[];
+      dbg.innerHTML=
+        `<b>F3T row0:</b> w=${r0[0]} ps=${r0[2]} cs=${r0[3]} pm=${r0[4]} cm=${r0[5]}<br>`+
+        `<b>F2V row0:</b> w=${r1[0]} ps=${r1[2]} cs=${r1[3]} pm=${r1[4]} cm=${r1[5]}<br>`+
+        `<b>F3V row0:</b> w=${r2[0]} ps=${r2[2]} cs=${r2[3]} pm=${r2[4]} cm=${r2[5]}<br>`+
+        `<b>F3T righe:</b> ${f3t.length} | <b>F2V righe:</b> ${f2v.length} | <b>F3V righe:</b> ${f3v.length}`;
+    }
+
     buildAll();
     const now=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
     ss('','Aggiornato alle '+now);
-    // ultima wk con consuntivo F3T (col3=cons.sett)
     const wkRow=D.F3T.filter(r=>r[3]!=='').pop();
-    if(wkRow) document.getElementById('hwk').textContent=(wkRow[0]||'WK —')+' · KAV';
+    if(wkRow) document.getElementById('hwk').textContent=(wkRow[0]||'WK —')+' · KAV v4';
   }catch(e){
-    ss('E','Errore caricamento — verificare connessione');
+    ss('E','Errore: '+e.message);
     console.error(e); useFallback();
   }
 }
@@ -447,7 +459,7 @@ function goCurve(i){
   document.getElementById('cacc').style.background=CURVES[i].ac;
   document.getElementById('ctit').textContent=CURVES[i].title;
   const d=CURVES[i].d;
-  // "oggi" = ultima settimana con cons.sett valorizzato (cs != null)
+  // "last update" = ultima settimana con cons.sett valorizzato (cs != null)
   const lastConsIdx=d.reduce((li,r,i2)=>r.cs!=null?i2:li,-1);
   const lastWk=lastConsIdx>=0?d[lastConsIdx].w:'—';
   document.getElementById('csub').textContent=`Ultimo consuntivo: ${lastWk}`;
