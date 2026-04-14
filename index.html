@@ -680,6 +680,16 @@ function mkChart(data,opt){
     s+=`<line x1="${tx.toFixed(1)}" y1="${pT}" x2="${tx.toFixed(1)}" y2="${pT+cH}" stroke="#C49A2B" stroke-width="1.5" stroke-dasharray="5,4"/>`;
     s+=`<text x="${tx.toFixed(1)}" y="${pT-2}" text-anchor="middle" font-size="7.5" fill="#C49A2B" font-family="monospace">last update</text>`;
   }
+  // Milestones
+  if(opt.milestones){
+    opt.milestones.forEach(m=>{
+      const mi=data.findIndex(d=>d.w===m.w);
+      if(mi<0)return;
+      const mx=xc(mi);
+      s+=`<line x1="${mx.toFixed(1)}" y1="${pT}" x2="${mx.toFixed(1)}" y2="${pT+cH}" stroke="${m.col||'#D94040'}" stroke-width="1.5" stroke-dasharray="6,3"/>`;
+      s+=`<text x="${mx.toFixed(1)}" y="${pT+cH+24}" text-anchor="middle" font-size="6.5" fill="${m.col||'#D94040'}" font-family="monospace" font-weight="600">${m.label}</text>`;
+    });
+  }
   // Barre
   bk.forEach((k,ki)=>data.forEach((d,i)=>{
     const v=+(d[k]??0);if(v<=0)return;
@@ -739,10 +749,11 @@ function goCurve(i){
   const lastWk=todayI>=0?d[todayI].w:'—';
   document.getElementById('csub').textContent=`Ultimo consuntivo: ${lastWk}`;
   document.getElementById('cwrap').innerHTML=mkChart(d,{
-    W:580,H:260,pL:46,pR:52,pT:14,pB:32,
+    W:580,H:270,pL:46,pR:52,pT:14,pB:42,
     bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
     lk:['pm','cm'],lc:['#4BAD5E','#3AADE0'],ld:['7,4',''],
     labs:d.map(x=>x.w),todayI,
+    milestones:[{w:'W32',label:'ARRIVO GRU KAV',col:'#D94040'}],
   });
 }
 
@@ -844,10 +855,11 @@ function renderBanc(){
   });
 
   document.getElementById('bwrap').innerHTML=mkChart(bd,{
-    W:580,H:260,pL:40,pR:44,pT:14,pB:32,
+    W:580,H:270,pL:40,pR:44,pT:14,pB:42,
     bk:['ps','cs'],bc:['#1B5E89BB','#E07B3ABB'],
     lk:['pm','cm'],lc:['#4BAD5E','#1B3262'],ld:['7,4',''],
     labs:bd.map(x=>x.w),todayI:lastI,onClk:'clkB',
+    milestones:[{w:'W32',label:'ARRIVO GRU KAV',col:'#D94040'}],
   });
 }
 
