@@ -9,42 +9,42 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--navy);}
 .hdr{background:var(--navy);border-bottom:2px solid rgba(196,154,43,.4);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
-.hbdg{background:rgba(196,154,43,.15);border:1px solid rgba(196,154,43,.4);border-radius:4px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:monospace;}
-.htit{font-size:12px;color:rgba(255,255,255,.9);}
-.hwk{margin-left:auto;background:rgba(196,154,43,.12);border:1px solid rgba(196,154,43,.3);border-radius:4px;padding:2px 9px;font-size:10px;font-family:monospace;color:var(--gold);}
+.hbdg{background:rgba(196,154,43,.15);border:1px solid rgba(196,154,43,.4);border-radius:4px;padding:3px 9px;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.1em;font-family:monospace;}
+.htit{font-size:15px;color:rgba(255,255,255,.9);}
+.hwk{margin-left:auto;background:rgba(196,154,43,.12);border:1px solid rgba(196,154,43,.3);border-radius:4px;padding:2px 9px;font-size:15px;font-family:monospace;color:var(--gold);}
 .sbar{background:var(--navy2);padding:6px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sdot{width:8px;height:8px;border-radius:50%;background:#4BAD5E;box-shadow:0 0 6px #4BAD5E;flex-shrink:0;}
 .sdot.L{background:var(--gold);box-shadow:0 0 6px var(--gold);animation:pu 1s ease-in-out infinite;}
 .sdot.E{background:var(--red);box-shadow:0 0 6px var(--red);}
 @keyframes pu{0%,100%{opacity:1;}50%{opacity:.4;}}
-.stxt{font-size:10px;font-family:monospace;color:rgba(255,255,255,.7);}
-.sbtn{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:3px 10px;font-size:9px;font-family:monospace;color:rgba(255,255,255,.8);cursor:pointer;}
+.stxt{font-size:15px;font-family:monospace;color:rgba(255,255,255,.7);}
+.sbtn{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:3px 10px;font-size:15px;font-family:monospace;color:rgba(255,255,255,.8);cursor:pointer;}
 .krow{padding:10px 12px 0;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
 @media(max-width:560px){.krow{grid-template-columns:repeat(2,1fr);}}
 .kpi{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:10px 12px;position:relative;overflow:hidden;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--gold));}
-.kl{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);font-family:monospace;margin-bottom:3px;}
+.kl{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);font-family:monospace;margin-bottom:3px;}
 .kv{font-size:20px;font-weight:700;color:var(--navy);font-family:monospace;line-height:1;}
-.ks{font-size:9px;color:#9BA8B8;margin-top:2px;font-family:monospace;}
+.ks{font-size:15px;color:#9BA8B8;margin-top:2px;font-family:monospace;}
 .tabs{display:flex;border-bottom:1px solid var(--mg);background:#fff;margin-top:10px;padding:0 12px;}
-.tab{padding:9px 14px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:.08em;background:none;border:none;border-bottom:2px solid transparent;color:var(--mu);cursor:pointer;}
+.tab{padding:9px 14px;font-size:15px;font-family:monospace;text-transform:uppercase;letter-spacing:.08em;background:none;border:none;border-bottom:2px solid transparent;color:var(--mu);cursor:pointer;}
 .tab.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:600;}
 .con{padding:12px;}
 .vw{display:none;}.vw.on{display:block;}
 .crd{background:#fff;border:1px solid var(--mg);border-radius:6px;padding:14px;margin-bottom:14px;}
 .chdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .cacc{width:3px;height:14px;border-radius:2px;flex-shrink:0;}
-.ctit{font-size:10px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;font-family:monospace;}
-.csub{font-size:9px;color:var(--mu);font-family:monospace;margin-top:1px;}
+.ctit{font-size:15px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;font-family:monospace;}
+.csub{font-size:15px;color:var(--mu);font-family:monospace;margin-top:1px;}
 .stabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.stab{padding:5px 12px;font-size:9px;font-family:monospace;border-radius:4px;cursor:pointer;font-weight:600;border:1.5px solid;}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:9px;color:#5A6880;font-family:monospace;align-items:center;}
+.stab{padding:5px 12px;font-size:15px;font-family:monospace;border-radius:4px;cursor:pointer;font-weight:600;border:1.5px solid;}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:15px;color:#5A6880;font-family:monospace;align-items:center;}
 .lsq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle;}
 .lln{width:22px;height:3px;display:inline-block;margin-right:3px;vertical-align:middle;}
 .lld{width:22px;height:0;display:inline-block;margin-right:3px;vertical-align:middle;border-bottom:2.5px dashed;}
 svg.ch{width:100%;display:block;overflow:visible;}
-.tbl{width:100%;border-collapse:collapse;font-size:9px;font-family:monospace;}
-.tbl th{background:var(--navy);color:#fff;padding:5px 8px;font-size:8px;text-transform:uppercase;text-align:center;border:1px solid var(--navy2);}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;font-family:monospace;}
+.tbl th{background:var(--navy);color:#fff;padding:5px 8px;font-size:14px;text-transform:uppercase;text-align:center;border:1px solid var(--navy2);}
 .tbl td{padding:4px 8px;border-bottom:1px solid #F0F3F8;text-align:center;vertical-align:middle;}
 .tbl tr:nth-child(even) td{background:#F8F9FC;}
 .bdg{font-size:16px;padding:1px 7px;border-radius:3px;font-weight:600;font-family:monospace;display:inline-block;}
@@ -52,14 +52,14 @@ svg.ch{width:100%;display:block;overflow:visible;}
 .bo{background:#FFF3E0;color:#BF6000;}.br{background:#FDECEA;color:#C62828;}.bn{background:#EEF0F5;color:#546080;}
 .pm{overflow-x:auto;}.pm svg{display:block;min-width:380px;}
 .palo{cursor:pointer;}.palo:hover circle{opacity:.75;}
-.pleg{display:flex;gap:12px;margin-top:8px;font-size:9px;font-family:monospace;color:#5A6880;flex-wrap:wrap;}
+.pleg{display:flex;gap:12px;margin-top:8px;font-size:15px;font-family:monospace;color:#5A6880;flex-wrap:wrap;}
 .pleg span{display:flex;align-items:center;gap:5px;}
 .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
 .edt{margin-top:8px;background:#fff;border:1px solid var(--gold);border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.edt input{width:60px;padding:3px 6px;border:1px solid var(--mg);border-radius:4px;font-size:10px;font-family:monospace;text-align:center;}
-.bok{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:9px;font-family:monospace;cursor:pointer;}
-.bx{background:#EEF0F5;color:#5A6880;border:none;border-radius:4px;padding:3px 8px;font-size:9px;font-family:monospace;cursor:pointer;}
-.spin{text-align:center;padding:30px;font-size:10px;font-family:monospace;color:var(--mu);}
+.edt input{width:60px;padding:3px 6px;border:1px solid var(--mg);border-radius:4px;font-size:15px;font-family:monospace;text-align:center;}
+.bok{background:var(--navy);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:15px;font-family:monospace;cursor:pointer;}
+.bx{background:#EEF0F5;color:#5A6880;border:none;border-radius:4px;padding:3px 8px;font-size:15px;font-family:monospace;cursor:pointer;}
+.spin{text-align:center;padding:30px;font-size:15px;font-family:monospace;color:var(--mu);}
 </style>
 </head>
 <body>
@@ -159,9 +159,9 @@ svg.ch{width:100%;display:block;overflow:visible;}
     </div>
     <div id="bwrap"><div class="spin">Caricamento…</div></div>
     <div class="edt" id="bedt" style="display:none">
-      <span id="bel" style="font-size:9px;color:var(--navy);font-weight:600;font-family:monospace"></span>
+      <span id="bel" style="font-size:15px;color:var(--navy);font-weight:600;font-family:monospace"></span>
       <input type="number" id="bei" min="0" max="50">
-      <span style="font-size:9px;color:#9BA8B8;font-family:monospace">pali settimana</span>
+      <span style="font-size:15px;color:#9BA8B8;font-family:monospace">pali settimana</span>
       <button class="bok" onclick="saveB()">OK</button>
       <button class="bx" onclick="closeB()">✕</button>
     </div>
@@ -589,27 +589,27 @@ function renderIntegrata(){
      <div class="kpi" style="--ac:#C49A2B"><div class="kl">Impalcato</div><div class="kv" style="color:#C49A2B">${(subI*100).toFixed(1)}%</div><div class="ks">peso ${(INTEG.wImp*100).toFixed(0)}%</div></div>
      <div class="kpi" style="--ac:#4BAD5E"><div class="kl">Contributo pali</div><div class="kv" style="color:#1B5E89">${paliContrib.toFixed(1)}%</div><div class="ks">su totale integrato</div></div>`;
   document.getElementById('iwrap').innerHTML=`
-    <div style="margin:8px 0 4px;font-size:9px;font-family:monospace;color:var(--mu)">AVANZAMENTO COMPLESSIVO</div>
+    <div style="margin:8px 0 4px;font-size:15px;font-family:monospace;color:var(--mu)">AVANZAMENTO COMPLESSIVO</div>
     <div style="position:relative;height:32px;background:#EEF0F5;border-radius:6px;overflow:hidden;margin-bottom:6px">
       <div style="position:absolute;left:0;top:0;bottom:0;width:${paliContrib}%;background:#1B5E89;transition:width .8s"></div>
       <div style="position:absolute;left:${paliContrib}%;top:0;bottom:0;width:${impContrib}%;background:#C49A2B;transition:width .8s"></div>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:monospace;color:${totalPct>5?'#fff':'var(--navy)'};text-shadow:${totalPct>5?'0 1px 3px rgba(0,0,0,.5)':'none'}">${totalPct.toFixed(1)}%</div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:monospace;color:${totalPct>5?'#fff':'var(--navy)'};text-shadow:${totalPct>5?'0 1px 3px rgba(0,0,0,.5)':'none'}">${totalPct.toFixed(1)}%</div>
     </div>
-    <div style="display:flex;gap:16px;font-size:9px;font-family:monospace;color:var(--mu)">
+    <div style="display:flex;gap:16px;font-size:15px;font-family:monospace;color:var(--mu)">
       <span><span class="lsq" style="background:#1B5E89"></span>Pali: ${paliContrib.toFixed(1)}%</span>
       <span><span class="lsq" style="background:#C49A2B"></span>Impalcato: ${impContrib.toFixed(1)}%</span>
       <span style="color:var(--navy);font-weight:700">Residuo: ${(100-totalPct).toFixed(1)}%</span>
     </div>
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div>
-        <div style="font-size:10px;font-weight:700;color:#1B5E89;font-family:monospace;margin-bottom:4px">Palificazione (${(INTEG.wPali*100).toFixed(0)}%)</div>
+        <div style="font-size:15px;font-weight:700;color:#1B5E89;font-family:monospace;margin-bottom:4px">Palificazione (${(INTEG.wPali*100).toFixed(0)}%)</div>
         <div style="height:12px;background:#EEF0F5;border-radius:4px;overflow:hidden"><div style="height:100%;background:#1B5E89;width:${subP*100}%;border-radius:4px"></div></div>
-        <div style="font-size:9px;font-family:monospace;color:var(--mu);margin-top:2px">${(subP*100).toFixed(1)}% della fase</div>
+        <div style="font-size:15px;font-family:monospace;color:var(--mu);margin-top:2px">${(subP*100).toFixed(1)}% della fase</div>
       </div>
       <div>
-        <div style="font-size:10px;font-weight:700;color:#C49A2B;font-family:monospace;margin-bottom:4px">Impalcato (${(INTEG.wImp*100).toFixed(0)}%)</div>
+        <div style="font-size:15px;font-weight:700;color:#C49A2B;font-family:monospace;margin-bottom:4px">Impalcato (${(INTEG.wImp*100).toFixed(0)}%)</div>
         <div style="height:12px;background:#EEF0F5;border-radius:4px;overflow:hidden"><div style="height:100%;background:#C49A2B;width:${subI*100}%;border-radius:4px"></div></div>
-        <div style="font-size:9px;font-family:monospace;color:var(--mu);margin-top:2px">${(subI*100).toFixed(1)}% della fase</div>
+        <div style="font-size:15px;font-family:monospace;color:var(--mu);margin-top:2px">${(subI*100).toFixed(1)}% della fase</div>
       </div>
     </div>`;
   // Detail tables
@@ -625,7 +625,7 @@ function renderPaliTable(){
     const avPct=a.qty>0?((a.eseg||0)/a.qty*100):0;
     const peso=a.peso!=null?(a.peso<=1?(a.peso*100).toFixed(1):a.peso.toFixed(1)):'-';
     return`<tr style="background:${i%2===0?'#F8F9FC':'#fff'}">
-      <td style="text-align:left"><span style="font-size:8px;color:var(--mu);font-family:monospace">${a.code}</span> ${a.att}</td>
+      <td style="text-align:left"><span style="font-size:14px;color:var(--mu);font-family:monospace">${a.code}</span> ${a.att}</td>
       <td>${a.qty||'-'}</td><td>${peso}%</td>
       <td style="font-weight:700;color:#1B5E89">${a.eseg||0}</td>
       <td>${bdg(Math.round(avPct))}</td></tr>`;
@@ -638,7 +638,7 @@ function renderImpTable(){
     const peso=a.peso!=null?(a.peso<=1?(a.peso*100).toFixed(1):a.peso.toFixed(1)):'-';
     const compl=a.compl||0;
     return`<tr style="background:${i%2===0?'#F8F9FC':'#fff'}">
-      <td style="text-align:left"><span style="font-size:8px;color:var(--mu);font-family:monospace">${a.code}</span> ${a.att}</td>
+      <td style="text-align:left"><span style="font-size:14px;color:var(--mu);font-family:monospace">${a.code}</span> ${a.att}</td>
       <td>${peso}%</td>
       <td>${bdg(Math.round(compl))}</td></tr>`;
   }).join('');
@@ -826,7 +826,7 @@ function renderBanc(){
     if(r.tipo)lastTipo=r.tipo;
     html+=`<tr style="background:${i%2===0?'#F8F9FC':'#fff'}">${tc}<td style="text-align:left">${r.att}</td><td>${r.qty}</td><td>${r.peso.toFixed(0)}%</td><td style="font-weight:700;color:var(--blue)">${r.eseg}</td><td>${bdg(+(av).toFixed(1))}</td></tr>`;
   });
-  if(html)html+=`<tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:11px">${tot.toFixed(1)}%</span></td></tr>`;
+  if(html)html+=`<tr style="background:#EEF2FA"><td colspan="4" style="text-align:right;font-weight:700;color:var(--navy)">TOTALE</td><td></td><td><span class="bdg ba" style="font-size:14px">${tot.toFixed(1)}%</span></td></tr>`;
   document.getElementById('bpbody').innerHTML=html||'<tr><td colspan="6" class="spin">Caricamento…</td></tr>';
   document.getElementById('bpsub').textContent=tot>0?`Avanzamento pesato: ${tot.toFixed(1)}%`:'';
   document.getElementById('k3').textContent=tot>0?tot.toFixed(1)+'%':'—';
